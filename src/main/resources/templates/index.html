@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<!-- saved from url=(0029)#signin -->
+<html lang="zh-CN" dropeffect="none"
+      class="js is-AppPromotionBarVisible cssanimations csstransforms csstransitions flexbox no-touchevents no-mobile"
+      style="">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <script async="" src="../scripts/ga.js"></script>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-ZA-Response-Id" content="46acde5c53db46f2806ccad726de9826">
+    <title>首页 - 牛客</title>
+    <meta name="apple-itunes-app" content="app-id=432274380">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta http-equiv="mobile-agent" content="format=html5;url=https://nowcoder.com/">
+    <meta id="znonce" name="znonce" content="d3edc464cf014708819feffde7ddd01e">
+    <link rel="search" type="application/opensearchdescription+xml" href="https://nowcoder.com/static/search.xml"
+          title="牛客">
+    <link rel="stylesheet" href="../styles/index.css">
+    <style>
+        .zm-item-answer-author-info a.collapse {
+            margin-top: 0
+        }
+        .nav-account {
+            background: #ff411c;
+            border-radius: 20px;
+            color: #fff;
+            line-height: 24px;
+            float: right;
+            margin-top: 12px;
+            margin-left: 10px;
+            white-space: nowrap;
+        }
+        .nav-account a {
+            display: inline-block;
+            color: #fff;
+            font-size: 14px;
+            padding: 0 20px;
+        }
+        .nav-account .nav-account-login {
+            padding: 0 3px 0 20px;
+        }
+        a:link, a:visited {
+            text-decoration: none;
+        }
+    </style>
+
+</head>
+
+#parse("header.html")
+    <div class="zg-wrap zu-main clearfix " role="main" id="app">
+        <div class="zu-main-content">
+            <div class="zu-main-content-inner">
+                <div class="zg-section" id="zh-home-list-title">
+                    <i class="zg-icon zg-icon-feedlist"></i>最新动态
+                    <input type="hidden" id="is-topstory">
+                    <span class="zg-right zm-noti-cleaner-setting" style="list-style:none">
+                        <a href="https://nowcoder.com/settings/filter" class="zg-link-gray-normal">
+                            <i class="zg-icon zg-icon-settings"></i>设置</a></span>
+                </div>
+
+                <div class="zu-main-feed-con navigable" data-feedtype="topstory" id="zh-question-list" data-widget="navigable" data-navigable-options="{&quot;items&quot;:&quot;&gt; .zh-general-list .feed-content&quot;,&quot;offsetTop&quot;:-82}">
+                    <a href="javascript:;" class="zu-main-feed-fresh-button" id="zh-main-feed-fresh-button" style="display:none"></a>
+                    <div id="js-home-feed-list" class="zh-general-list topstory clearfix" data-init="{&quot;params&quot;: {}, &quot;nodename&quot;: &quot;TopStory2FeedList&quot;}" data-delayed="true" data-za-module="TopStoryFeedList">
+
+                        <template v-for="(question,index) in questions">
+
+                        <div class="feed-item folding feed-item-hook feed-item-2">
+                            <meta itemprop="ZReactor">
+                            <div class="feed-item-inner">
+                                <div class="avatar">
+                                    <a :title="question.user.name" class="zm-item-link-avatar" target="_blank" :href="'/users/'+question.user.id">
+                                        <img :src="question.user.headUrl" class="zm-item-img-avatar">
+                                    </a>
+                                </div>
+                                <div class="feed-main">
+                                    <div class="feed-content" data-za-module="AnswerItem">
+                                        <meta itemprop="answer-id" content="389034">
+                                        <meta itemprop="answer-url-token" content="13174385">
+                                        <h2 class="feed-title">
+                                            <a class="question_link" target="_blank" :href="'/questions/'+question.id">{{question.title}}</a></h2>
+                                        <div class="feed-question-detail-item">
+                                            <div class="question-description-plain zm-editable-content"></div>
+                                        </div>
+                                        <div class="expandable entry-body">
+                                            <div class="zm-item-vote">
+                                                <a class="zm-item-vote-count js-expand js-vote-count" href="javascript:;" data-bind-votecount="">4168</a></div>
+                                            <div class="zm-item-answer-author-info">
+                                                <a class="author-link" data-tip="p$b$amuro1230" target="_blank" :href="'/users/'+question.user.id">{{question.user.name}}</a>
+                                                发表于{{question.createdDate | time('YYYY-MM-DD HH:mm:ss')}}
+                                            </div>
+                                            <div class="zm-item-vote-info">
+                                                <span class="voters text">
+                                                    <a href="#" class="more text">
+                                                        <span class="js-voteCount">4168</span>&nbsp;人赞同
+                                                    </a>
+                                                </span>
+                                            </div>
+                                            <div class="zm-item-rich-text expandable js-collapse-body">
+                                                <div class="zh-summary summary clearfix">{{question.content}}
+                                                    <a href="http://zhuanlan.zhihu.com/p/19831487" class="toggle-expand">显示全部</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="feed-meta">
+                                            <div class="zm-item-meta answer-actions clearfix js-contentActions">
+                                                <div class="zm-meta-panel">
+                                                    <a data-follow="q:link" class="follow-link zg-follow meta-item" href="javascript:;">
+                                                        <i class="z-icon-follow"></i>关注问题</a>
+                                                    <a href="#" name="addcomment" class="meta-item toggle-comment js-toggleCommentBox">
+                                                        <i class="z-icon-comment"></i>{{question.commentCount}} 条评论</a>
+                                                    <button class="meta-item item-collapse js-collapse">
+                                                        <i class="z-icon-fold"></i>收起</button>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        </template>
+                    </div>
+                    <a href="javascript:;" id="zh-load-more" data-method="next" class="zg-btn-white zg-r3px zu-button-more" style="">更多</a></div>
+            </div>
+        </div>
+    </div>
+#parse("footer.html")
+
+<script src="../scripts/js/index.js"></script>
