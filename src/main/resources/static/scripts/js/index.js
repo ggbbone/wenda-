@@ -30,7 +30,8 @@ let app = new Vue({
                     }
                 }
             })
-        }
+        },
+
     },
     created: function () {
         // 初始化列表加载10条数据

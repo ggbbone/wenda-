@@ -1,3 +1,4 @@
+<link rel="stylesheet" href="../styles/bootstrap.min.css">
 <style>
     [v-cloak] {
         display: none;
@@ -6,7 +7,7 @@
 <body class="zhi ">
 <div role="navigation" class="zu-top" id="header">
     <div class="zg-wrap modal-shifting clearfix" id="zh-top-inner">
-        <a href="https://nowcoder.com/" class="zu-top-link-logo" id="zh-top-link-logo" data-za-c="view_home"
+        <a href="/" class="zu-top-link-logo" id="zh-top-link-logo" data-za-c="view_home"
            data-za-a="visit_home" data-za-l="top_navigation_zhihu_logo">牛客</a>
 
         #if(!$user)
@@ -48,9 +49,45 @@
         </div>
         #end
 
-        <button class="zu-top-add-question" id="zu-top-add-question" @click="fn">提问</button>
+        <!-- 提问窗口 -->
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true" style="color:#00B091;">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">发表问题</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="title">标题</label>
+                            <input type="email" class="form-control" id="title" placeholder="问题的标题" v-model="title">
+                        </div>
+                        <br>
+                        <div class="form-group">
+                            <label for="content">问题详情（可选）</label>
+                            <textarea  class="form-control" id="content" placeholder="问题背景、条件等详细信息"
+                                       v-model="content" rows="12"></textarea>
+                        </div>
+
+                        <br>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                        <button type="button" class="btn btn-primary" style="background-color:#00B091;border: 1px solid #00B091"
+                                @click="questionSubmit">发布</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--提问按钮-->
+        #if($user)
+        <button class="zu-top-add-question" data-toggle="modal" data-target="#myModal">提问</button>
+        #else
+        <button class="zu-top-add-question" @click="toLogin">提问</button>
+        #end
         <div role="search" id="zh-top-search" class="zu-top-search">
-            <form method="GET" action="https://nowcoder.com/search" id="zh-top-search-form" class="zu-top-search-form">
+            <form method="GET" action="/" id="zh-top-search-form" class="zu-top-search-form">
                 <input type="hidden" name="type" value="content">
                 <label for="q" class="hide-text">牛客搜索</label>
                 <input type="text" class="zu-top-search-input" id="q"
@@ -63,7 +100,7 @@
         </div>
         <div id="zg-top-nav" class="zu-top-nav">
             <ul class="zu-top-nav-ul zg-clear">
-                <li class="zu-top-nav-li current">
+                <li class="zu-top-nav-li  current">
                     <a class="zu-top-nav-link" href="/index">首页</a>
                 </li>
                 <li class="zu-top-nav-li">
