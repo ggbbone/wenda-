@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -40,15 +41,37 @@ public class QuestionService {
         example.setOrderByClause(orderBy);
         PageHelper.offsetPage(offset, limit);
         List<Question> questions = questionMapper.selectByExample(example);
-        //查询提问用户
         for (Question question1 : questions){
+            //查询提问用户
             User user = userMapper.selectByPrimaryKey(question1.getUserId());
             if (user!=null){
                 user.setPassword(null);
                 user.setSalt(null);
                 question1.setUser(user);
             }
+            //设置问题内容长度
+            String content = question1.getContent();
+            if (content.length()>200){
+                question1.setContent(content.substring(0, 200)+"...");
+            }
         }
         return questions;
+    }
+
+    /**
+     * 插入一条问题数据
+     * @param user
+     * @param title
+     * @param content
+     */
+    public void insertQuestion(User user, String title, String content) {
+        Question question = new Question();
+        question.setContent(content);
+        question.setUserId(user.getId());
+        question.setCommentCount(0);
+        question.setTitle(title);
+        question.setCreatedDate(new Date());
+
+        questionMapper.insertSelective(question);
     }
 }
