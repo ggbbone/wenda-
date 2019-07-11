@@ -2,10 +2,12 @@ package com.yzg.toutiao.dao;
 
 import com.yzg.toutiao.model.Comment;
 import com.yzg.toutiao.model.example.CommentExample;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
+@Mapper
 public interface CommentMapper {
     long countByExample(CommentExample example);
 
