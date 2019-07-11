@@ -65,4 +65,10 @@ public class QuestionController {
         }
 
     }
+
+    @RequestMapping(value = "/{questionId}",method = RequestMethod.GET)
+    public String toQuestion(@PathVariable(value = "questionId") int questionId){
+
+        return "detail";
+    }
 }
