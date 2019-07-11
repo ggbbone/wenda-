@@ -62,7 +62,7 @@
                     <div class="group-inputs">
                         <div class="email input-wrapper">
                             <input type="text" placeholder="手机号或邮箱" required="" id="loginusername"
-                                   v-model="login.username" @click="clean">
+                                   v-model="login.username">
                             <transition name="slide-fade">
                                 <label class="error" v-if="login.username_error!=''" v-cloak>
                                     {{login.username_error}}</label>
@@ -70,7 +70,7 @@
                         </div>
                         <div class="input-wrapper">
                             <input type="password" aria-label="密码" placeholder="密码" required=""
-                                   v-model="login.password" @click="clean">
+                                   v-model="login.password">
                             <transition name="slide-fade">
                                 <label class="error"
                                        v-if="login.password_error!=''" v-cloak>

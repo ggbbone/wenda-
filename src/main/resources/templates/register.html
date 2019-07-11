@@ -63,7 +63,7 @@
                     <div class="group-inputs">
                         <div class="name input-wrapper">
                             <input required="" type="text" aria-label="用户名" placeholder="用户名"
-                                   v-model="register.username" @click="clean">
+                                   v-model="register.username">
                             <transition name="slide-fade">
                                 <label class="error" v-if="register.username_error!=''" v-cloak="">
                                     {{register.username_error}}</label>
@@ -71,7 +71,7 @@
                         </div>
 
                         <div class="input-wrapper">
-                            <input required="" type="password" @click="clean"
+                            <input required="" type="password"
                                    placeholder="密码（不少于 6 位）" v-model="register.password">
                             <transition name="slide-fade">
                                 <label class="error" v-if="register.password_error!=''" v-cloak="">
@@ -79,7 +79,7 @@
                             </transition>
                         </div>
                         <div class="input-wrapper">
-                            <input required="" type="password" @click="clean"
+                            <input required="" type="password"
                                    placeholder="确认密码" v-model="register.repwd">
                             <transition name="slide-fade">
                                 <label class="error" v-if="register.repwd_error!=''" v-cloak="">
