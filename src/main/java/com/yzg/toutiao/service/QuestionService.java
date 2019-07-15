@@ -7,6 +7,7 @@ import com.yzg.toutiao.dao.UserMapper;
 import com.yzg.toutiao.model.Question;
 import com.yzg.toutiao.model.example.QuestionExample;
 import com.yzg.toutiao.model.User;
+import com.yzg.toutiao.model.example.UserExample;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,5 +74,23 @@ public class QuestionService {
         question.setCreatedDate(new Date());
 
         questionMapper.insertSelective(question);
+    }
+
+    /**
+     * 根据id查询问题详细信息
+     * @param id
+     * @return
+     */
+    public Question getQuestionById(int id){
+        Question question = questionMapper.selectByPrimaryKey(id);
+        if (question != null){
+            User user = new User();
+            User user1 = userMapper.selectByPrimaryKey(question.getUserId());
+            user.setId(user1.getId());
+            user.setHeadUrl(user1.getHeadUrl());
+            user.setName(user1.getName());
+            question.setUser(user);
+        }
+        return question;
     }
 }

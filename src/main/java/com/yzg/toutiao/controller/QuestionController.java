@@ -9,6 +9,7 @@ import com.yzg.toutiao.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.text.DecimalFormat;
 import java.util.Arrays;
@@ -67,8 +68,11 @@ public class QuestionController {
     }
 
     @RequestMapping(value = "/{questionId}",method = RequestMethod.GET)
-    public String toQuestion(@PathVariable(value = "questionId") int questionId){
-
-        return "detail";
+    public ModelAndView toQuestion(@PathVariable(value = "questionId") int questionId,
+                             ModelAndView modelAndView){
+        modelAndView.setViewName("question");
+        Question question = questionService.getQuestionById(questionId);
+        modelAndView.addObject(question);
+        return modelAndView;
     }
 }
