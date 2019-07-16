@@ -5,16 +5,11 @@
       style="">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="renderer" content="webkit">
-    <meta http-equiv="X-ZA-Response-Id" content="46acde5c53db46f2806ccad726de9826">
     <title>首页 - 问答</title>
-    <meta name="apple-itunes-app" content="app-id=432274380">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <meta http-equiv="mobile-agent" content="format=html5;url=https://nowcoder.com/">
-    <meta id="znonce" name="znonce" content="d3edc464cf014708819feffde7ddd01e">
-    <link rel="search" type="application/opensearchdescription+xml" href="https://nowcoder.com/static/search.xml"
-          title="牛客">
+
     <link rel="stylesheet" href="../styles/index.css">
     <style>
         .zm-item-answer-author-info a.collapse {
@@ -25,26 +20,32 @@
 </head>
 
 #parse("header.html")
-<div class="zg-wrap zu-main clearfix with-indention-votebar" itemscope="" itemtype="http://schema.org/Question"
-     id="zh-single-question-page" data-urltoken="36301524" role="main">
+
+<input id="questionId" type="hidden" value="$!{question.id}">
+<div class="zg-wrap zu-main clearfix with-indention-votebar" id="app" role="main">
     <div class="zu-main-content">
-        <div class="zu-main-content-inner">
-            <meta itemprop="isTopQuestion" content="false">
-            <meta itemprop="visitsCount" content="402">
-
-            <div id="zh-question-title" data-editable="true" class="zm-editable-status-normal">
+        <div class="zu-main-content-inner" v-cloak="">
+            <!--问题发布者信息-->
+            <div>
+                <a href="/users/$!{question.user.id}">
+                    <img src="$!{question.user.headUrl}" class="zm-list-avatar avatar"></a>
+                <a href="/users/$!{question.user.id}" style="padding-left: 5px;">$!{question.user.name}</a>
+            </div>
+            <br>
+            <!--问题标题-->
+            <div id="zh-question-title" class="zm-editable-status-normal">
                 <h2 class="zm-item-title">
-
-                    <span class="zm-editable-content">!{question.title}</span>
-
+                    <span class="zm-editable-content">$!{question.title}</span>
                 </h2>
             </div>
+            <!--问题内容-->
             <div id="zh-question-detail" class="zm-item-rich-text zm-editable-status-normal">
-                <div class="zm-editable-content">!{question.content}</div>
+                <div class="zm-editable-content">$!{question.content}</div>
             </div>
+            <!--关注列表-->
             <div class="zm-side-section">
                 <div class="zm-side-section-inner" id="zh-question-side-header-wrap">
-                    <button class="zg-btn-green">关注问题</button>
+                    <button class="zg-btn-blue">关注问题</button>
                     <div class="zh-question-followers-sidebar">
                         <div class="zg-gray-normal">
                             <a href="">
@@ -62,15 +63,13 @@
                     </div>
                 </div>
             </div>
-            <div id="zh-question-answer-wrap" data-pagesize="10" class="zh-question-answer-wrapper navigable"
-                 data-widget="navigable" data-navigable-options="{&quot;items&quot;: &quot;&gt;.zm-item-answer&quot;}"
-                 data-init="{&quot;params&quot;: {&quot;url_token&quot;: 36301524, &quot;pagesize&quot;: 10, &quot;offset&quot;: 0}, &quot;nodename&quot;: &quot;QuestionAnswerListV2&quot;}">
 
-
-                <div tabindex="-1" class="zm-item-answer">
+            <!--回答列表-->
+            <div class="zh-question-answer-wrapper navigable">
+                <div class="zm-item-answer" v-for="(comment,index) in comments" style="padding-top: 15px;" v-cloak>
                     <link itemprop="url" href="">
                     <div class="zm-votebar goog-scrollfloater" data-za-module="VoteBar">
-                        <button class="up" aria-pressed="false" title="赞同">
+                        <button class="up pressed" aria-pressed="false" title="赞同">
                             <i class="icon vote-arrow"></i>
                             <span class="count">28</span>
                             <span class="label sr-only">赞同</span></button>
@@ -80,11 +79,9 @@
                     </div>
                     <div class="answer-head">
                         <div class="zm-item-answer-author-info">
-                            <a class="zm-item-link-avatar avatar-link" href="/user/1"
-                               data-tip="p$t$yingxiaodao">
-                                <img src="comment.user.headUrl"
-                                     class="zm-list-avatar avatar"></a>
-                            <a class="author-link" href="/user/userid">comment.user.name</a>
+                            <a class="zm-item-link-avatar avatar-link" :href="'/user/'">
+                                <img :src="comment.headUrl" class="zm-list-avatar avatar"></a>
+                            <a class="author-link" :href="'/user/' + comment.userId">{{comment.userName}}</a>
                         </div>
                         <div class="zm-item-vote-info" data-votecount="28" data-za-module="VoteInfo">
                                 <span class="voters text">
@@ -92,21 +89,18 @@
                                         <span class="js-voteCount">28</span>&nbsp;人赞同</a></span>
                         </div>
                     </div>
-                    <div class="zm-item-rich-text expandable js-collapse-body" data-resourceid="6727688"
-                         data-action="/answer/content" data-author-name="营销岛"
-                         data-entry-url="/question/36301524/answer/66862039">
+                    <div class="zm-item-rich-text expandable js-collapse-body">
                         <div class="zm-editable-content clearfix">
-                            comment.comment.content
+                            {{comment.content}}
                         </div>
                     </div>
                     <a class="zg-anchor-hidden ac" name="22162611-comment"></a>
                     <div class="zm-item-meta answer-actions clearfix js-contentActions">
                         <div class="zm-meta-panel">
-                            <span itemprop="url" class="answer-date-link meta-item" target="_blank" href="">发布于
-                            2019-06-11 11:30
+                            <span itemprop="url" class="answer-date-link meta-item">发布于
+                            {{comment.createdDate | time('YYYY-MM-DD HH:mm:ss')}}
                             </span>
 
-                            <!--
                             <a href="" name="addcomment" class="meta-item toggle-comment js-toggleCommentBox">
                                 <i class="z-icon-comment"></i>4 条评论</a>
                             <a href="" class="meta-item zu-autohide js-thank" data-thanked="false">
@@ -115,34 +109,38 @@
                             <button class="item-collapse js-collapse" style="transition: none;">
                                 <i class="z-icon-fold"></i>收起
                             </button>
-                            -->
                         </div>
                     </div>
                 </div>
 
             </div>
-            <a name="draft"></a>
-            <form action="/addComment" method="post" id="commentform">
-                <input type="hidden" name="questionId" value="question.id"/>
+
+            <a href="javascript:void(0);" class="zg-btn-white zg-r3px zu-button-more"
+               v-cloak v-if="next" @click="getMore">查看更多回答</a>
+
+            <!--回答输入框-->
+            <div v-cloak="">
                 <div id="zh-question-answer-form-wrap" class="zh-question-answer-form-wrap">
                     <div class="zm-editable-editor-wrap" style="">
                         <div class="zm-editable-editor-outer">
                             <label for="content"><h4>我来回答：</h4></label>
                             <div class="zm-editable-editor-field-wrap">
                             <textarea name="content" id="content" class="zm-editable-editor-field-element editable"
-                                      style="font-style: italic;width:100%;" placeholder="写下你的回答..."></textarea>
+                                      style="font-style: italic;width:100%;" placeholder="写下你的回答..."
+                                      v-model="content"></textarea>
                             </div>
                         </div>
-
                         <div class="zm-command clearfix">
                             <span class=" zg-right">
-                                <button type="submit" class="submit-button zg-btn-blue">发布回答</button></span>
+                                <button type="button" class="submit-button zg-btn-blue"
+                                        @click="submit">发布回答</button></span>
                         </div>
                     </div>
                 </div>
-            </form>
-
+            </div>
         </div>
     </div>
 </div>
+
 #parse("footer.html")
+<script src="../scripts/js/question.js"></script>
