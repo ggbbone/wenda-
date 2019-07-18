@@ -18,6 +18,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.security.interfaces.RSAKey;
 import java.util.Date;
 import java.util.List;
 
@@ -42,32 +43,37 @@ public class PassportInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request,
                              HttpServletResponse response,
                              Object o) throws Exception {
-        String ticket = null;
-        if (request.getCookies()!=null){
-            for (Cookie cookie:request.getCookies()){
-                if ("ticket".equals(cookie.getName())){
-                    ticket = cookie.getValue();
-                    break;
-                }
-            }
+        User user = (User) request.getSession().getAttribute("user");
+        //已登录直接从session中获取用户
+        if (user != null){
+            hostHolder.setUser(user);
+            return true;
         }
+        //从cookie获取ticket
+        String ticket = getValueByCookie("ticket",request);
         if (ticket != null){
             LoginTicketExample loginTicketExample = new LoginTicketExample();
             loginTicketExample.createCriteria().andTicketEqualTo(ticket);
             List<LoginTicket> loginTickets = loginTicketMapper.selectByExample(loginTicketExample);
             if (loginTickets.size()==0){
-                //ticket无效或不存在
+                //ticket不存在
+                deleteValueByCookie("ticket",request,response);
                 return true;
             }else if (loginTickets.get(0).getExpired().before(new Date())){
                 //登陆过期
+                deleteValueByCookie("ticket",request,response);
                 return true;
             }else if (loginTickets.get(0).getStatus() != 0){
                 //ticket状态无效
+                deleteValueByCookie("ticket",request,response);
+                return true;
+            }else {
+                //ticket正确且有效
+                user = userMapper.selectByPrimaryKey(loginTickets.get(0).getUserId());
+                hostHolder.setUser(user);
+                request.getSession().setAttribute("user",user);
                 return true;
             }
-            User user = userMapper.selectByPrimaryKey(loginTickets.get(0).getUserId());
-            hostHolder.setUser(user);
-            return true;
         }
         return true;
     }
@@ -84,5 +90,35 @@ public class PassportInterceptor implements HandlerInterceptor {
     @Override
     public void afterCompletion(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o, Exception e) throws Exception {
         hostHolder.clear();
+    }
+
+
+
+    private String getValueByCookie(String key, HttpServletRequest request){
+        String value = null;
+        if (request.getCookies()!=null){
+            for (Cookie cookie:request.getCookies()){
+                if (key.equals(cookie.getName())){
+                    value = cookie.getValue();
+                    break;
+                }
+            }
+        }
+        return value;
+    }
+
+    private void deleteValueByCookie(String key, HttpServletRequest request, HttpServletResponse response){
+        if (request.getCookies()!=null){
+            for (Cookie cookie:request.getCookies()){
+                if (key.equals(cookie.getName())){
+                    //删除cookie
+                    Cookie cookie1 = new Cookie(cookie.getName(), null);
+                    cookie1.setMaxAge(0);
+                    response.addCookie(cookie1);
+                    break;
+                }
+            }
+        }
+
     }
 }
