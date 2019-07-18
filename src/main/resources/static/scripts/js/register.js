@@ -1,7 +1,3 @@
-//时间过滤器
-Vue.filter('time', function (data, fomrmat) {
-    return moment(data).format(fomrmat || 'HH:mm');
-});
 
 let app = new Vue({
     el: "#app",
@@ -16,6 +12,20 @@ let app = new Vue({
                 repwd_error: '',
                 error: false
             },
+        }
+    },
+    watch: {
+        'register.username': function () {
+            this.register.username_error = '';
+            this.register.error = false;
+        },
+        'register.password': function () {
+            this.register.password_error = '';
+            this.register.error = false;
+        },
+        'register.repwd': function () {
+            this.register.repwd_error = '';
+            this.register.error = false;
         }
     },
     methods: {
@@ -77,10 +87,7 @@ let app = new Vue({
 
         //点击输入框
         clean: function () {
-            this.register.username_error = '';
-            this.register.password_error = '';
-            this.register.repwd_error = '';
-            this.register.error = false;
+
         },
 
 

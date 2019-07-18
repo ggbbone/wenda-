@@ -1,7 +1,3 @@
-//时间过滤器
-Vue.filter('time', function (data, fomrmat) {
-    return moment(data).format(fomrmat || 'HH:mm');
-});
 
 let app = new Vue({
     el: "#app",
@@ -18,6 +14,16 @@ let app = new Vue({
             },
             //登陆成功跳转的url
             next:'/',
+        }
+    },
+    watch: {
+        'login.username':function (newVal, oldVal) {
+            this.login.username_error = '';
+            this.login.error = false;
+        },
+        'login.password':function (newVal, oldVal) {
+            this.login.password_error = '';
+            this.login.error = false;
         }
     },
     methods: {
@@ -66,10 +72,7 @@ let app = new Vue({
 
         //点击输入框
         clean: function () {
-            this.login.username_error = '';
-            this.login.password_error = '';
-            this.login.repwd_error = '';
-            this.login.error = false;
+
         },
         // 获取url参数
         getUrlKey(name) {
@@ -81,5 +84,7 @@ let app = new Vue({
         if (this.getUrlKey("next") !=null){
             this.next = this.getUrlKey("next")
         }
-    }
+    },
+
+    
 });

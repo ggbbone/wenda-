@@ -1,0 +1,329 @@
+.question-label {
+    padding-top: 10px;
+}
+
+.QuestionRichText-more {
+    height: auto;
+    padding: 0;
+    line-height: inherit;
+    background-color: transparent;
+    border: none;
+    border-radius: 0;
+    display: inline-block;
+    padding: 0 16px;
+    font-size: 14px;
+    line-height: 32px;
+    text-align: center;
+    cursor: pointer;
+    background: none;
+    background-color: rgba(0, 0, 0, 0);
+    margin: 0;
+    line-height: inherit;
+    color: inherit;
+    cursor: pointer;
+    outline: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    color: #8590a6;
+}
+
+.answer {
+    margin-bottom: 0;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    border-bottom: 1px solid #f0f2f7;
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+
+.AuthorInfo {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+
+}
+
+.AuthorInfo-name {
+    font-size: 16px;
+    font-weight: 600;
+    font-synthesis: style;
+    color: #444;
+}
+
+.Button {
+    display: inline-block;
+    padding: 0 16px;
+    font-size: 14px;
+    line-height: 32px;
+    color: #8590a6;
+    text-align: center;
+    cursor: pointer;
+    background: none;
+    background-color: rgba(0, 0, 0, 0);
+    border: 1px solid;
+    border-radius: 3px;
+}
+
+.Button--link, .Button--plain {
+    height: auto;
+    padding: 0;
+    line-height: inherit;
+    background-color: transparent;
+    border: none;
+    border-radius: 0;
+}
+
+.next {
+    margin-bottom: 0;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.shouqi {
+    text-decoration: none;
+    font-size: 14px;
+    color: grey;
+}
+
+.close-content {
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 5;
+    -webkit-box-orient: vertical;
+
+}
+
+a:link {
+    text-decoration: none;
+}
+
+/*指正常的未被访问过的链接*/
+
+a:visited {
+    text-decoration: none;
+}
+
+/*指已经访问过的链接*/
+
+a:hover {
+    text-decoration: none;
+}
+
+/*指鼠标在链接*/
+
+a:active {
+    text-decoration: none;
+}
+
+/*指正在点的链接*/
+
+.Comments-container {
+    height: 100%;
+}
+
+.CommentsV2-withPagination {
+    border: 1px solid #ebebeb;
+    -webkit-box-shadow: 0 1px 3px rgba(26,26,26,.1);
+    box-shadow: 0 1px 3px rgba(26,26,26,.1);
+    background: #fff;
+    margin-top: 12px;
+    overflow: visible;
+    border-radius: 4px;
+}
+.CommentsV2 {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+.CommentTopbar {
+    border-radius: 2px;
+}
+.Topbar {
+    background: #fff;
+    border-bottom: 1px solid #f6f6f6;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    height: 50px;
+    padding: 0 20px;
+}
+.Topbar-title {
+    -webkit-box-flex: 1;
+    -ms-flex: 1 1;
+    flex: 1 1;
+}
+.CommentTopbar-title {
+    display: inline-block;
+    font-size: 15px;
+    font-weight: 600;
+    font-synthesis: style;
+    color: #1a1a1a;
+}
+.NestComment--rootComment {
+    position: relative;
+}
+.CommentsV2-withPagination .CommentListV2 {
+    overflow-y: visible;
+}
+.CommentListV2 {
+    -webkit-box-flex: 1;
+    -ms-flex: 1 1;
+    flex: 1 1;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+.NestComment {
+     position: relative;
+ }
+.CommentItemV2 {
+    outline: none;
+}
+.CommentItemV2 {
+    position: relative;
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+    padding: 12px 20px 10px;
+    font-size: 15px;
+}
+.CommentItemV2-time {
+    float: right;
+    font-size: 14px;
+    color: #8590a6;
+}
+.Comment-head {
+    padding-right: 10px;
+}
+.CommentItemV2-meta {
+    position: relative;
+    height: 24px;
+    padding-right: 3px;
+    padding-left: 1px;
+    margin-bottom: 4px;
+    line-height: 24px;
+}
+.CommentItemV2-meta .UserLink-link {
+    font-weight: 500;
+}
+a {
+    color: inherit;
+    text-decoration: none;
+}
+.CommentItemV2-avatar {
+    margin-right: 8px;
+}
+.Popover {
+    position: relative;
+    display: inline-block;
+}
+.CommentItemV2-metaSibling {
+    padding-left: 33px;
+}
+ol, ul {
+    padding: 0;
+    margin: 0;
+}
+li {
+    list-style-type: none;
+}
+
+.comment-active {
+    color: #0f88eb;
+}
+
+.CommentItemV2-editor {
+    padding: 12px 0;
+}
+.CommentEditorV2--normal {
+    position: relative;
+    -webkit-transition: padding-right .3s ease;
+    transition: padding-right .3s ease;
+}
+.NestComment .NestComment--child {
+    position: relative;
+    padding-left: 33px;
+}
+
+.CommentMoreReplyButton {
+    padding: 12px 20px 12px 84px;
+}
+.comment-input {
+    padding: 12px 20px 10px;
+}
+
+.offset {
+    text-align: center;
+}
+
+.CommentItemV2-reply {
+    margin-right: 8px;
+    margin-left: 8px;
+}
+.CommentItemV2-reply, .CommentItemV2-roleInfo {
+    color: #8590a6;
+}
+.CommentItemV2-content {
+    margin-bottom: 6px;
+    line-height: 25px;
+}
+.CommentItemV2 {
+    font-size: 15px;
+}
+
+.CommentItemV2-roleInfo {
+    margin-right: -8px;
+}
+.NestComment:not(:last-child)::after {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: block;
+    margin: 0 20px;
+    border-bottom: 1px solid #f6f6f6;
+    content: "";
+}
+.NestComment--rootComment::after {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: block;
+    margin-right: 20px;
+    margin-left: 52px;
+    border-bottom: 1px solid #f6f6f6;
+    content: "";
+}
+
+.NestComment .NestComment--child::after {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: block;
+    margin-right: 20px;
+    margin-left: 84px;
+    border-bottom: 1px solid #f6f6f6;
+    content: "";
+}
