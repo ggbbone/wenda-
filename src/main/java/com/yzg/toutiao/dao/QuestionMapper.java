@@ -30,4 +30,12 @@ public interface QuestionMapper {
     int updateByPrimaryKeySelective(Question record);
 
     int updateByPrimaryKey(Question record);
+
+    /**
+     * 更新问题的评论数量
+     * @param count
+     * @param id
+     * @return
+     */
+    int addCommentCount(@Param("count") int count,@Param("id") int id);
 }
