@@ -6,77 +6,40 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <title>问答-首页</title>
+    <link rel="stylesheet" href="${base.contextPath}/styles/index.css">
+    #parse("css.html")
 </head>
 <body>
 #parse("header.html")
-<link rel="stylesheet" href="../styles/index.css">
-<div class="container" id="app">
-
-    <div class="page-header">
-        <h1>Non-responsive Bootstrap</h1>
-        <p class="lead">Disable the responsiveness of Bootstrap by fixing the width of the container and using the first
-            grid system tier.
-            <a href="http://getbootstrap.com/getting-started/#disable-responsive">
-                Read the documentation
-            </a> for more information.
-        </p>
+<div class="container main" id="app">
+    <div class="page-header1">
+        <ul class="nav nav-tabs" style="color: #0f88eb">
+            <li role="presentation" :class="{'active':header == 1}"><a href="javascript:;" @click="header = 1">推荐</a></li>
+            <li role="presentation" :class="{'active':header == 2}"><a href="javascript:;" @click="header = 2">最新</a></li>
+            <li role="presentation" :class="{'active':header == 3}"><a href="javascript:;" @click="header = 3">热门</a></li>
+        </ul>
     </div>
 
-    <div>
-        <h3>What changes</h3>
-        <p>Note the lack of the
-            <code>&lt;meta name="viewport" content="width=device-width, initial-scale=1"&gt;</code>,
-            which disables the zooming aspect of sites in mobile devices. In addition, we reset our container's width and
-            changed the navbar to prevent collapsing, and are basically good to go.</p>
-    </div>
-    <div>
-        <h3>What changes</h3>
-        <p>Note the lack of the
-            <code>&lt;meta name="viewport" content="width=device-width, initial-scale=1"&gt;</code>,
-            which disables the zooming aspect of sites in mobile devices. In addition, we reset our container's width and
-            changed the navbar to prevent collapsing, and are basically good to go.</p>
-    </div>
-    <div>
-        <h3>What changes</h3>
-        <p>Note the lack of the
-            <code>&lt;meta name="viewport" content="width=device-width, initial-scale=1"&gt;</code>,
-            which disables the zooming aspect of sites in mobile devices. In addition, we reset our container's width and
-            changed the navbar to prevent collapsing, and are basically good to go.</p>
-    </div>
-    <div>
-        <h3>What changes</h3>
-        <p>Note the lack of the
-            <code>&lt;meta name="viewport" content="width=device-width, initial-scale=1"&gt;</code>,
-            which disables the zooming aspect of sites in mobile devices. In addition, we reset our container's width and
-            changed the navbar to prevent collapsing, and are basically good to go.</p>
-    </div>
-    <div>
-        <h3>What changes</h3>
-        <p>Note the lack of the
-            <code>&lt;meta name="viewport" content="width=device-width, initial-scale=1"&gt;</code>,
-            which disables the zooming aspect of sites in mobile devices. In addition, we reset our container's width and
-            changed the navbar to prevent collapsing, and are basically good to go.</p>
-    </div>
-    <div>
-        <h3>What changes</h3>
-        <p>Note the lack of the
-            <code>&lt;meta name="viewport" content="width=device-width, initial-scale=1"&gt;</code>,
-            which disables the zooming aspect of sites in mobile devices. In addition, we reset our container's width and
-            changed the navbar to prevent collapsing, and are basically good to go.</p>
-    </div>
-    <div>
-        <h3>What changes</h3>
-        <p>Note the lack of the
-            <code>&lt;meta name="viewport" content="width=device-width, initial-scale=1"&gt;</code>,
-            which disables the zooming aspect of sites in mobile devices. In addition, we reset our container's width and
-            changed the navbar to prevent collapsing, and are basically good to go.</p>
+    <div style="min-height: 800px;">
+        <div v-cloak="" v-for="(question, index) in questions" class="question" :key="question.id">
+            <h3><a :href="'${base.contextPath}/questions/' + question.id" class="question-title" target="_blank" style="text-decoration: none">{{question.title}}</a></h3>
+            <div class="AuthorInfo">
+                <img class="head" :src="question.user.headUrl">&nbsp;<h4>{{question.user.name}}</h4>
+            </div>
+            <div class="close-content">
+                {{question.content}}
+            </div>
+            <div class="ContentItem-time">
+                <a target="_blank" :href="'${base.contextPath}/questions/' + question.id">
+                    <span data-tooltip="发布于 2019-07-12 11:05">发布于 2019-07-12</span>
+                </a>
+            </div>
+        </div>
     </div>
 
-    <h3>Non-responsive grid system</h3>
-    <div class="row">
-        <div class="col-xs-4">One third</div>
-        <div class="col-xs-4">One third</div>
-        <div class="col-xs-4">One third</div>
+    <div>
+        <button type="button" class="btn btn-primary btn-sm btn-block" v-cloak
+                @click="getMore" v-show="next">查看更多问题</button>
     </div>
 
 </div>
@@ -84,5 +47,5 @@
 
 #parse("footer.html")
 </body>
-<script src="../scripts/js/index.js"></script>
+<script src="${base.contextPath}/scripts/js/index.js"></script>
 </html>
