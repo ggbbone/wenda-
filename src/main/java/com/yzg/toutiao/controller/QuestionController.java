@@ -1,5 +1,6 @@
 package com.yzg.toutiao.controller;
 
+import com.yzg.toutiao.annotation.LoginRequired;
 import com.yzg.toutiao.dao.QuestionMapper;
 import com.yzg.toutiao.model.HostHolder;
 import com.yzg.toutiao.model.Question;
@@ -49,6 +50,12 @@ public class QuestionController {
         return new Result().success().data(questions);
     }
 
+    /**
+     * 发表问题
+     * @param question
+     * @return
+     */
+    @LoginRequired
     @RequestMapping(value = "", method = RequestMethod.POST)
     @ResponseBody
     public Result insertQuestion(@RequestBody Question question){
@@ -67,6 +74,12 @@ public class QuestionController {
 
     }
 
+    /**
+     * 访问问题详情页面
+     * @param questionId
+     * @param modelAndView
+     * @return
+     */
     @RequestMapping(value = "/{questionId}",method = RequestMethod.GET)
     public ModelAndView toQuestion(@PathVariable(value = "questionId") int questionId,
                              ModelAndView modelAndView){
