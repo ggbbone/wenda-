@@ -1,11 +1,8 @@
 package com.yzg.toutiao.model;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-
 import java.util.Date;
 import java.util.List;
 
-@JsonInclude(JsonInclude.Include.NON_NULL)
 public class CommentUser {
     private Integer id;
 
@@ -20,6 +17,8 @@ public class CommentUser {
     private Integer commentCount;
 
     private Integer likes;
+
+    private Byte state;
 
     private Integer userId;
 
@@ -96,6 +95,14 @@ public class CommentUser {
         this.likes = likes;
     }
 
+    public Byte getState() {
+        return state;
+    }
+
+    public void setState(Byte state) {
+        this.state = state;
+    }
+
     public Integer getUserId() {
         return userId;
     }
@@ -119,6 +126,4 @@ public class CommentUser {
     public void setHeadUrl(String headUrl) {
         this.headUrl = headUrl == null ? null : headUrl.trim();
     }
-
-
 }

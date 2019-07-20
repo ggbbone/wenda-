@@ -6,7 +6,6 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
-
 @Mapper
 public interface CommentMapper {
     long countByExample(CommentExample example);
@@ -32,4 +31,5 @@ public interface CommentMapper {
     int updateByPrimaryKey(Comment record);
 
     int addCommentCount(@Param("count") int count, @Param("commentId") int entityId);
+
 }

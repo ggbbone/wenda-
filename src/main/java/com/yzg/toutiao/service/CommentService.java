@@ -4,9 +4,7 @@ import com.github.pagehelper.PageHelper;
 import com.yzg.toutiao.aspect.LogAspect;
 import com.yzg.toutiao.dao.*;
 import com.yzg.toutiao.model.*;
-import com.yzg.toutiao.model.example.CommentExample;
 import com.yzg.toutiao.model.example.CommentUserExample;
-import com.yzg.toutiao.model.example.ReplyExample;
 import com.yzg.toutiao.model.example.ReplyUserExample;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -77,7 +75,8 @@ public class CommentService {
             orderBy += " desc";
         }
         commentUserExample.setOrderByClause(orderBy);
-        commentUserExample.createCriteria().andEntityIdEqualTo(entityId).andEntityTypeEqualTo(entityType);
+        commentUserExample.createCriteria().andEntityIdEqualTo(entityId)
+                .andEntityTypeEqualTo(entityType).andStateEqualTo((byte) 1);
 
         PageHelper.offsetPage(offset, limit);
 
@@ -87,7 +86,7 @@ public class CommentService {
             for (CommentUser comment : comments) {
                 ReplyUserExample replyUserExample = new ReplyUserExample();
                 replyUserExample.setOrderByClause("created_date");
-                replyUserExample.createCriteria().andCommentIdEqualTo(comment.getId());
+                replyUserExample.createCriteria().andCommentIdEqualTo(comment.getId()).andStateEqualTo((byte) 1);
                 PageHelper.offsetPage(0, 2);
                 List<ReplyUser> replies = replyUserMapper.selectByExample(replyUserExample);
                 comment.setReplies(replies);

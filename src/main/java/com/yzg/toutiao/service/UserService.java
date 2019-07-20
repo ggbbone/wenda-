@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpSession;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
@@ -119,7 +120,8 @@ public class UserService {
         return new Result().success().data(ticket);
     }
 
-    public Result logout(String ticket) {
+    public Result logout(String ticket, HttpSession session) {
+        session.removeAttribute("user");
         LoginTicketExample loginTicketExample = new LoginTicketExample();
         loginTicketExample.createCriteria().andTicketEqualTo(ticket);
         LoginTicket loginTicket = new LoginTicket();

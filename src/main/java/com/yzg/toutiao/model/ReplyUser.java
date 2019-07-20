@@ -17,6 +17,8 @@ public class ReplyUser {
 
     private Integer airId;
 
+    private Byte state;
+
     private String userName;
 
     private String userHeadUrl;
@@ -79,6 +81,14 @@ public class ReplyUser {
 
     public void setAirId(Integer airId) {
         this.airId = airId;
+    }
+
+    public Byte getState() {
+        return state;
+    }
+
+    public void setState(Byte state) {
+        this.state = state;
     }
 
     public String getUserName() {

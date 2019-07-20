@@ -19,6 +19,8 @@ public class Comment {
 
     private Integer likes;
 
+    private Byte state;
+
     public Integer getId() {
         return id;
     }
@@ -81,5 +83,13 @@ public class Comment {
 
     public void setLikes(Integer likes) {
         this.likes = likes;
+    }
+
+    public Byte getState() {
+        return state;
+    }
+
+    public void setState(Byte state) {
+        this.state = state;
     }
 }

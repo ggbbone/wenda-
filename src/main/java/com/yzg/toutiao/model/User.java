@@ -1,5 +1,8 @@
 package com.yzg.toutiao.model;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class User {
     private Integer id;
 

@@ -17,6 +17,8 @@ public class Reply {
 
     private Integer airId;
 
+    private Byte state;
+
     public Integer getId() {
         return id;
     }
@@ -71,5 +73,13 @@ public class Reply {
 
     public void setAirId(Integer airId) {
         this.airId = airId;
+    }
+
+    public Byte getState() {
+        return state;
+    }
+
+    public void setState(Byte state) {
+        this.state = state;
     }
 }

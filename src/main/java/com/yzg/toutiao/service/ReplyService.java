@@ -1,6 +1,7 @@
 package com.yzg.toutiao.service;
 
 import com.github.pagehelper.PageHelper;
+import com.yzg.toutiao.dao.CommentMapper;
 import com.yzg.toutiao.dao.ReplyMapper;
 import com.yzg.toutiao.dao.ReplyUserMapper;
 import com.yzg.toutiao.model.Reply;
@@ -24,8 +25,19 @@ public class ReplyService {
     ReplyMapper replyMapper;
     @Autowired
     ReplyUserMapper replyUserMapper;
+    @Autowired
+    CommentMapper commentMapper;
 
 
+    /**
+     * 查询回复
+     * @param commentId
+     * @param offset
+     * @param limit
+     * @param orderBy
+     * @param desc
+     * @return
+     */
     public List<ReplyUser> selectRepliesByCommentId(
             int commentId, int offset, int limit, String orderBy, int desc) {
 
@@ -37,18 +49,30 @@ public class ReplyService {
         if (0 != limit){
             PageHelper.offsetPage(offset,limit);
         }
-        replyUserExample.createCriteria().andCommentIdEqualTo(commentId);
+        replyUserExample.createCriteria().andCommentIdEqualTo(commentId).andStateEqualTo((byte) 1);
         return replyUserMapper.selectByExample(replyUserExample);
 
     }
 
-    public int insertReply(Integer userId, int airId, int commentId, String content) {
+    /**
+     * 插入一条回复
+     * @param userId
+     * @param airId
+     * @param commentId
+     * @param content
+     * @return
+     */
+    public void insertReply(Integer userId, int airId, int commentId, String content) {
         Reply reply = new Reply();
         reply.setCreatedDate(new Date());
         reply.setUserId(userId);
         reply.setAirId(airId);
         reply.setCommentId(commentId);
         reply.setContent(content);
-        return replyMapper.insertSelective(reply);
+
+        replyMapper.insertSelective(reply);
+        //修改评论的回复数量
+        commentMapper.addCommentCount(1,commentId);
+
     }
 }
