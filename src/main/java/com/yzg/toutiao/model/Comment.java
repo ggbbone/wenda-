@@ -7,13 +7,17 @@ public class Comment {
 
     private Integer userId;
 
-    private Date creadtedDate;
+    private Date createdDate;
 
     private Integer entityId;
 
     private Integer entityType;
 
     private String content;
+
+    private Integer commentCount;
+
+    private Integer likes;
 
     public Integer getId() {
         return id;
@@ -31,12 +35,12 @@ public class Comment {
         this.userId = userId;
     }
 
-    public Date getCreadtedDate() {
-        return creadtedDate;
+    public Date getCreatedDate() {
+        return createdDate;
     }
 
-    public void setCreadtedDate(Date creadtedDate) {
-        this.creadtedDate = creadtedDate;
+    public void setCreatedDate(Date createdDate) {
+        this.createdDate = createdDate;
     }
 
     public Integer getEntityId() {
@@ -61,5 +65,21 @@ public class Comment {
 
     public void setContent(String content) {
         this.content = content == null ? null : content.trim();
+    }
+
+    public Integer getCommentCount() {
+        return commentCount;
+    }
+
+    public void setCommentCount(Integer commentCount) {
+        this.commentCount = commentCount;
+    }
+
+    public Integer getLikes() {
+        return likes;
+    }
+
+    public void setLikes(Integer likes) {
+        this.likes = likes;
     }
 }

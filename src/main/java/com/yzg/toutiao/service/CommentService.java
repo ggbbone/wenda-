@@ -1,9 +1,15 @@
 package com.yzg.toutiao.service;
 
 import com.github.pagehelper.PageHelper;
-import com.yzg.toutiao.dao.CommentMapper;
-import com.yzg.toutiao.model.Comment;
+import com.yzg.toutiao.aspect.LogAspect;
+import com.yzg.toutiao.dao.*;
+import com.yzg.toutiao.model.*;
 import com.yzg.toutiao.model.example.CommentExample;
+import com.yzg.toutiao.model.example.CommentUserExample;
+import com.yzg.toutiao.model.example.ReplyExample;
+import com.yzg.toutiao.model.example.ReplyUserExample;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,44 +24,76 @@ import java.util.List;
 @Service
 @Transactional
 public class CommentService {
+    private static final Logger LOGGER = LoggerFactory.getLogger(LogAspect.class);
 
     @Autowired
     CommentMapper commentMapper;
+    @Autowired
+    CommentUserMapper commentUserMapper;
+    @Autowired
+    QuestionMapper questionMapper;
+    @Autowired
+    ReplyUserMapper replyUserMapper;
 
     /**
-     * 插入一条回答
+     * 插入一条回答或评论
      *
      * @param entityId
      * @param content
      * @param userId
      */
-    public void insertComment(int entityId, String content, int userId) {
+    public void insertComment(int entityType, int entityId, String content, int userId) {
         Comment comment = new Comment();
         comment.setContent(content);
         comment.setUserId(userId);
-        comment.setCreadtedDate(new Date());
+        comment.setCreatedDate(new Date());
         comment.setEntityId(entityId);
-        //评论类型，1表示问题的回答
-        comment.setEntityType(1);
+        comment.setEntityType(entityType);
         commentMapper.insertSelective(comment);
+        if (entityType == 1) {
+            //更改问题的回答数量
+            questionMapper.addCommentCount(1, entityId);
+        } else if (entityType == 2) {
+            //更改回答的评论数量
+            commentMapper.addCommentCount(1, entityId);
+        }
     }
 
     /**
-     * 查询某个问题的回答
+     * 查询评论
      *
-     * @param questionId
+     * @param entityType
+     * @param entityId
      * @param offset
      * @param limit
+     * @param orderBy
      * @return
      */
-    public List<Comment> getCommentsByQuestionId(int questionId, int offset, int limit) {
+    public List<CommentUser> getComments(int entityType, int entityId, int offset,
+                                         int limit, String orderBy, int desc) {
 
-        CommentExample commentExample = new CommentExample();
-        commentExample.createCriteria().andEntityIdEqualTo(questionId)
-                .andEntityTypeEqualTo(1);
-        if (limit != 0){
-            PageHelper.offsetPage(offset,limit);
+        CommentUserExample commentUserExample = new CommentUserExample();
+        if (desc == 1) {
+            orderBy += " desc";
         }
-        return commentMapper.selectByExample(commentExample);
+        commentUserExample.setOrderByClause(orderBy);
+        commentUserExample.createCriteria().andEntityIdEqualTo(entityId).andEntityTypeEqualTo(entityType);
+
+        PageHelper.offsetPage(offset, limit);
+
+        List<CommentUser> comments = commentUserMapper.selectByExample(commentUserExample);
+        //当查询问题下的评论时,同时查出2条该评论的回复
+        if (entityType == 2) {
+            for (CommentUser comment : comments) {
+                ReplyUserExample replyUserExample = new ReplyUserExample();
+                replyUserExample.setOrderByClause("created_date");
+                replyUserExample.createCriteria().andCommentIdEqualTo(comment.getId());
+                PageHelper.offsetPage(0, 2);
+                List<ReplyUser> replies = replyUserMapper.selectByExample(replyUserExample);
+                comment.setReplies(replies);
+            }
+        }
+
+        return comments;
     }
 }
