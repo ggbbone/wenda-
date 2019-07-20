@@ -1,17 +1,24 @@
 
 <input type="hidden" id="baseUrl" value="${base.contextPath}">
-<!-- Fixed navbar -->
+
 <nav class="navbar navbar-default navbar-fixed-top" id="header" style="background-color: #ffffff;">
     <div class="container">
+        <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
-            <!-- The mobile navbar-toggle button can be safely removed since you do not need it in a non-responsive implementation -->
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
             <a class="navbar-brand" href="${base.contextPath}/">问答</a>
         </div>
-        <!-- Note that the .navbar-collapse and .collapse classes have been removed from the #navbar -->
-        <div id="navbar">
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="navbar-collapse collapse" id="bs-example-navbar-collapse-1" aria-expanded="false" style="height: 1px;">
             <form class="navbar-form navbar-left">
                 <div class="form-group">
-                    <input type="text" class="form-control" placeholder="搜索你感兴趣的内容" style="min-width: 300px;">
+                    <input type="text" class="form-control" placeholder="搜索你感兴趣的内容" style="min-width: 250px;" name="key">
                 </div>
                 <button type="submit" class="btn btn-default">搜索</button>
             </form>
@@ -21,7 +28,6 @@
                 <li><a href="${base.contextPath}/">消息</a></li>
             </ul>
 
-            <!--用户-->
             <ul class="nav navbar-nav navbar-right" v-cloak v-if="user.id != 0">
                 <li class="dropdown" v-if="user.id != -1">
                     <a href="${base.contextPath}/" class="dropdown-toggle" data-toggle="dropdown" role="button"
@@ -42,6 +48,6 @@
                 </template>
 
             </ul>
-        </div><!--/.nav-collapse -->
-    </div>
+        </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
 </nav>

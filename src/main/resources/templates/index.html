@@ -3,8 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="description" content="">
-    <meta name="author" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>问答-首页</title>
     <link rel="stylesheet" href="${base.contextPath}/styles/index.css">
     #parse("css.html")
@@ -24,16 +23,25 @@
         <div v-cloak="" v-for="(question, index) in questions" class="question" :key="question.id">
             <h3><a :href="'${base.contextPath}/questions/' + question.id" class="question-title" target="_blank" style="text-decoration: none">{{question.title}}</a></h3>
             <div class="AuthorInfo">
-                <img class="head" :src="question.user.headUrl">&nbsp;<h4>{{question.user.name}}</h4>
+                <img class="head" :src="question.user.headUrl">&nbsp;
+                <span>{{question.user.name}}</span>
             </div>
-            <div class="close-content">
-                {{question.content}}
+            <div class="question-content">
+                <span class="close-content Button--link" @click="toQuestionInfo(question)">{{question.content}}</span>
             </div>
             <div class="ContentItem-time">
                 <a target="_blank" :href="'${base.contextPath}/questions/' + question.id">
                     <span data-tooltip="发布于 2019-07-12 11:05">发布于 2019-07-12</span>
                 </a>
+                <span class="question-count Button--link" @click="toQuestionInfo(question)">
+                    <span aria-hidden="true" class="glyphicon glyphicon-comment">
+                    </span>
+                    {{question.commentCount}}条回答
+                </span>
+
             </div>
+
+
         </div>
     </div>
 
