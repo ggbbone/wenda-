@@ -33,8 +33,6 @@
   <img src="https://github.com/ggbbone/img/blob/master/img/1563671573(1).png?raw=true" />
   
   ## 2019/7/21
-  其实上面的内容都是我今天才写的
-  
   ### 昨天已经把消息中心的页面撸出来了
   <img src="https://github.com/ggbbone/img/blob/master/img/1563673878(1).png?raw=true" style="max-width:500px;max-width:500px;"/>
   
@@ -47,7 +45,7 @@
   
   ## 2019/7/22
   ### 用来处理事件的单向/优先队列实现了一部分，用的是Redis的Lists做队列
-  通过LPUSH入列，BRPOP阻塞出列并设置超时时间为0，当队列为空时，会一直等待直到有新的的元素入列  
+  通过LPUSH入列，BRPOP阻塞出列并设置超时时间为0，当队列为空时，会一直等待直到有新的元素入列  
   
   
   
