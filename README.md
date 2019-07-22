@@ -49,69 +49,75 @@
   ### 这是基于redis的消息队列实现异步操作的原理
   <img src="https://github.com/ggbbone/img/blob/master/img/1563775604(1).jpg?raw=true" />  
   
-  举个例子，比如点赞操作，在点赞完后调用eventProducer.fireEvent(new EventModel(EventType.LIKE))方法，并把要添加的事件作为构造方法参数传入，EventType.LIKE表示点赞操作。
-  
-  `public boolean fireEvent(EventModel eventModel){
-        try {
-            String json = JSONObject.toJSONString(eventModel);
-            String key = RedisKeyUtils.getEventQueue();
-            LOGGER.info("添加事件到redis队列:" + key +" VALUE:" + json);
-            jedisAdapter.lpush(key,json);
-            return true;
-        }catch (Exception e){
-            return false;
-        }
-    }`    
-  
+  举个例子，比如点赞操作，在点赞完后调用eventProducer.fireEvent(new EventModel(EventType.LIKE))方法，并把要添加的事件作为构造方法参数传入，EventType.LIKE表示点赞操作。  
+  ```
+  public boolean fireEvent(EventModel eventModel){  
+        try {  
+            String json = JSONObject.toJSONString(eventModel);  
+            String key = RedisKeyUtils.getEventQueue();  
+            LOGGER.info("添加事件到redis队列:" + key +" VALUE:" + json);  
+            jedisAdapter.lpush(key,json);  
+            return true;  
+        }catch (Exception e){  
+            return false;  
+        }  
+    }   
+ ```    
   fireEvent()方法会将事件对象转换成字符串，然后作为value值添加到事件队列中  
   创建EventConsume类实现InitializingBean, ApplicationContextAware接口  
-  其中afterPropertiesSet()方法将在所有的属性被初始化后调用
-   `@Override
-    public void afterPropertiesSet() throws Exception {
-        //获取现在有多少个eventHandler初始化了
-        Map<String, EventHandler> beans = applicationContext.getBeansOfType(EventHandler.class);
-        if (beans != null){
-            for (Map.Entry<String, EventHandler> entry : beans.entrySet()){
-                //找到那些handler对当前的事件感兴趣
-                List<EventType> eventTypes = entry.getValue().getSupportEventTypes();
-                for (EventType type : eventTypes){
-                    if (!config.containsKey(type)){
-                        //有可能是第一次注册这个事件，所以就可能初始的时候是null
-                        //把handler放到config中
-                        //把event注册到config中
-                        config.put(type, new ArrayList<EventHandler>());
-                    }
-                    //把对这些event感兴趣的handler添加到config
-                    config.get(type).add(entry.getValue());
-                }
+  其中afterPropertiesSet()方法将在所有的属性被初始化后调用  
+   ```
+   @Override  
+   public void afterPropertiesSet() throws Exception {  
+        //获取现在有多少个eventHandler初始化了  
+        Map<String, EventHandler> beans = applicationContext.getBeansOfType(EventHandler.class);  
+        if (beans != null){  
+            for (Map.Entry<String, EventHandler> entry : beans.entrySet()){  
+                //找到那些handler对当前的事件感兴趣  
+                List<EventType> eventTypes = entry.getValue().getSupportEventTypes();  
+                for (EventType type : eventTypes){  
+                    if (!config.containsKey(type)){  
+                        //有可能是第一次注册这个事件，所以就可能初始的时候是null  
+                        //把handler放到config中  
+                        //把event注册到config中  
+                        config.put(type, new ArrayList<EventHandler>());  
+                    }  
+                    //把对这些event感兴趣的handler添加到config  
+                    config.get(type).add(entry.getValue());  
+                }  
+            }  
+        }
+  ```
+        
+  然后通过EventConsumer类启动线程读取队列的事件  
+  ```
+  public void run() {  
+               LOGGER.info("线程开始读取事件");  
+                while (true){  
+                    String key = RedisKeyUtils.getEventQueue();  
+                    List<String> events = jedisAdapter.brpop(0, key);  
+                    for (String message : events){  
+                        LOGGER.info("读取事件:"+ message);  
+                        if (message.equals(key)){  
+                            continue;  
+                        }  
+                        EventModel eventModel = JSON.parseObject(message, EventModel.class);  
+                        if (!config.containsKey(eventModel.getType())){  
+                            LOGGER.error("不能识别的事件类型");  
+                            continue;  
+                        }  
+                        for (EventHandler handler : config.get(eventModel.getType())){  
+                            LOGGER.info("识别到事件：");  
+                            handler.doHandle(eventModel);  
+                        }  
+                    }  
+                }  
             }
-        }`
-  然后通过EventConsumer类启动线程读取队列的事件
-  `public void run() {
-                LOGGER.info("线程开始读取事件");
-                while (true){
-                    String key = RedisKeyUtils.getEventQueue();
-                    List<String> events = jedisAdapter.brpop(0, key);
-                    for (String message : events){
-                        LOGGER.info("读取事件:"+ message);
-                        if (message.equals(key)){
-                            continue;
-                        }
-                        EventModel eventModel = JSON.parseObject(message, EventModel.class);
-                        if (!config.containsKey(eventModel.getType())){
-                            LOGGER.error("不能识别的事件类型");
-                            continue;
-                        }
-                        for (EventHandler handler : config.get(eventModel.getType())){
-                            LOGGER.info("识别到事件：");
-                            handler.doHandle(eventModel);
-                        }
-                    }
-                }
-            }`
+```
   
   接下来是handler构造，因为我们不仅有一个handler，所以我们先定义一个handler接口供其他handler实现  
-  `public interface EventHandler {
+  ```
+  public interface EventHandler {
     /**
      * 处理的事件
      * @param model
@@ -122,6 +128,7 @@
      * @return
      */
     List<EventType> getSupportEventTypes();
-}`
+}
+```
   然后只要实现doHandle方法就可以处理事件了  
  
