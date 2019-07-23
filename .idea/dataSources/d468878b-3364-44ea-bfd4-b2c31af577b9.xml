@@ -927,163 +927,395 @@
       <Charset>utf8mb4</Charset>
       <DefaultForCharset>0</DefaultForCharset>
     </collation>
-    <table id="234" parent="11" name="news">
+    <table id="234" parent="11" name="comment"/>
+    <table id="235" parent="11" name="login_ticket">
       <Collation>utf8_general_ci</Collation>
     </table>
-    <table id="235" parent="11" name="question"/>
-    <table id="236" parent="11" name="user">
+    <table id="236" parent="11" name="message"/>
+    <table id="237" parent="11" name="news">
       <Collation>utf8_general_ci</Collation>
     </table>
-    <column id="237" parent="234" name="id">
+    <table id="238" parent="11" name="question"/>
+    <table id="239" parent="11" name="user">
+      <Collation>utf8_general_ci</Collation>
+    </table>
+    <view id="240" parent="11" name="comment_user"/>
+    <column id="241" parent="234" name="id">
+      <Position>1</Position>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="242" parent="234" name="user_id">
+      <Position>2</Position>
+      <Comment>发表用户</Comment>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="243" parent="234" name="created_date">
+      <Position>3</Position>
+      <Comment>发表时间</Comment>
+      <DataType>datetime|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="244" parent="234" name="entity_id">
+      <Position>4</Position>
+      <Comment>目标实体id</Comment>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="245" parent="234" name="entity_type">
+      <Position>5</Position>
+      <Comment>目标实体类型。1问题 2评论 3回复</Comment>
+      <DataType>int(11)|0s</DataType>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="246" parent="234" name="content">
+      <Position>6</Position>
+      <Comment>内容</Comment>
+      <DataType>text|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="247" parent="234" name="comment_count">
+      <Position>7</Position>
+      <Comment>收到的回复数量</Comment>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+      <DefaultExpression>&apos;0&apos;</DefaultExpression>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="248" parent="234" name="likes">
+      <Position>8</Position>
+      <Comment>点赞数量</Comment>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+      <DefaultExpression>&apos;0&apos;</DefaultExpression>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <index id="249" parent="234" name="user_index">
+      <ColNames>user_id</ColNames>
+      <Type>btree</Type>
+    </index>
+    <index id="250" parent="234" name="entity_index">
+      <ColNames>entity_id
+entity_type</ColNames>
+      <Type>btree</Type>
+    </index>
+    <key id="251" parent="234" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="252" parent="235" name="id">
+      <Position>1</Position>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="253" parent="235" name="user_id">
+      <Position>2</Position>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="254" parent="235" name="ticket">
+      <Position>3</Position>
+      <DataType>varchar(45)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="255" parent="235" name="expired">
+      <Position>4</Position>
+      <DataType>datetime|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="256" parent="235" name="status">
+      <Position>5</Position>
+      <DataType>int(11)|0s</DataType>
+      <DefaultExpression>&apos;0&apos;</DefaultExpression>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <index id="257" parent="235" name="ticket_UNIQUE">
+      <ColNames>ticket</ColNames>
+      <Unique>1</Unique>
+      <Type>btree</Type>
+    </index>
+    <key id="258" parent="235" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <key id="259" parent="235" name="ticket_UNIQUE">
+      <ColNames>ticket</ColNames>
+      <UnderlyingIndexName>ticket_UNIQUE</UnderlyingIndexName>
+    </key>
+    <column id="260" parent="236" name="id">
+      <Position>1</Position>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="261" parent="236" name="from_id">
+      <Position>2</Position>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="262" parent="236" name="to_id">
+      <Position>3</Position>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="263" parent="236" name="content">
+      <Position>4</Position>
+      <DataType>varchar(512)|0s</DataType>
+      <NotNull>1</NotNull>
+      <DefaultExpression>&apos;&apos;</DefaultExpression>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="264" parent="236" name="has_read">
+      <Position>5</Position>
+      <DataType>tinyint(4)|0s</DataType>
+      <NotNull>1</NotNull>
+      <DefaultExpression>&apos;0&apos;</DefaultExpression>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="265" parent="236" name="created_date">
+      <Position>6</Position>
+      <DataType>datetime|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="266" parent="236" name="conversation_id">
+      <Position>7</Position>
+      <DataType>varchar(64)|0s</DataType>
+      <NotNull>1</NotNull>
+      <DefaultExpression>&apos;&apos;</DefaultExpression>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <key id="267" parent="236" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="268" parent="237" name="id">
       <Position>1</Position>
       <DataType>int(11) unsigned|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="238" parent="234" name="title">
+    <column id="269" parent="237" name="title">
       <Position>2</Position>
       <DataType>varchar(128)|0s</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>&apos;&apos;</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="239" parent="234" name="link">
+    <column id="270" parent="237" name="link">
       <Position>3</Position>
       <DataType>varchar(256)|0s</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>&apos;&apos;</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="240" parent="234" name="image">
+    <column id="271" parent="237" name="image">
       <Position>4</Position>
       <DataType>varchar(256)|0s</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>&apos;&apos;</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="241" parent="234" name="like_count">
+    <column id="272" parent="237" name="like_count">
       <Position>5</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="242" parent="234" name="comment_count">
+    <column id="273" parent="237" name="comment_count">
       <Position>6</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="243" parent="234" name="created_date">
+    <column id="274" parent="237" name="created_date">
       <Position>7</Position>
       <DataType>datetime|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="244" parent="234" name="user_id">
+    <column id="275" parent="237" name="user_id">
       <Position>8</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="245" parent="234" name="PRIMARY">
+    <key id="276" parent="237" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="246" parent="235" name="id">
+    <column id="277" parent="238" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="247" parent="235" name="title">
+    <column id="278" parent="238" name="title">
       <Position>2</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="248" parent="235" name="content">
+    <column id="279" parent="238" name="content">
       <Position>3</Position>
       <DataType>text|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="249" parent="235" name="user_id">
+    <column id="280" parent="238" name="user_id">
       <Position>4</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="250" parent="235" name="created_date">
+    <column id="281" parent="238" name="created_date">
       <Position>5</Position>
       <DataType>datetime|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="251" parent="235" name="comment_count">
+    <column id="282" parent="238" name="comment_count">
       <Position>6</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="252" parent="235" name="date_index">
+    <index id="283" parent="238" name="user_index">
+      <ColNames>user_id</ColNames>
+      <Type>btree</Type>
+    </index>
+    <index id="284" parent="238" name="date_index">
       <ColNames>created_date</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="253" parent="235" name="PRIMARY">
+    <key id="285" parent="238" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="254" parent="236" name="id">
+    <column id="286" parent="239" name="id">
       <Position>1</Position>
       <DataType>int(11) unsigned|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="255" parent="236" name="name">
+    <column id="287" parent="239" name="name">
       <Position>2</Position>
       <DataType>varchar(64)|0s</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>&apos;&apos;</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="256" parent="236" name="password">
+    <column id="288" parent="239" name="password">
       <Position>3</Position>
       <DataType>varchar(128)|0s</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>&apos;&apos;</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="257" parent="236" name="salt">
+    <column id="289" parent="239" name="salt">
       <Position>4</Position>
       <DataType>varchar(32)|0s</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>&apos;&apos;</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="258" parent="236" name="head_url">
+    <column id="290" parent="239" name="head_url">
       <Position>5</Position>
       <DataType>varchar(256)|0s</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>&apos;&apos;</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="259" parent="236" name="name">
+    <index id="291" parent="239" name="name">
       <ColNames>name</ColNames>
       <Unique>1</Unique>
       <Type>btree</Type>
     </index>
-    <key id="260" parent="236" name="PRIMARY">
+    <key id="292" parent="239" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <key id="261" parent="236" name="name">
+    <key id="293" parent="239" name="name">
       <ColNames>name</ColNames>
       <UnderlyingIndexName>name</UnderlyingIndexName>
     </key>
+    <column id="294" parent="240" name="id">
+      <Position>1</Position>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="295" parent="240" name="entity_id">
+      <Position>2</Position>
+      <Comment>目标实体id</Comment>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="296" parent="240" name="entity_type">
+      <Position>3</Position>
+      <Comment>目标实体类型。1问题 2评论 3回复</Comment>
+      <DataType>int(11)|0s</DataType>
+    </column>
+    <column id="297" parent="240" name="content">
+      <Position>4</Position>
+      <Comment>内容</Comment>
+      <DataType>text|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="298" parent="240" name="created_date">
+      <Position>5</Position>
+      <Comment>发表时间</Comment>
+      <DataType>datetime|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="299" parent="240" name="comment_count">
+      <Position>6</Position>
+      <Comment>收到的回复数量</Comment>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="300" parent="240" name="likes">
+      <Position>7</Position>
+      <Comment>点赞数量</Comment>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="301" parent="240" name="user_id">
+      <Position>8</Position>
+      <DataType>int(11) unsigned|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="302" parent="240" name="user_name">
+      <Position>9</Position>
+      <DataType>varchar(64)|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="303" parent="240" name="head_url">
+      <Position>10</Position>
+      <DataType>varchar(256)|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
   </database-model>
 </dataSource>
