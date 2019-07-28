@@ -10,10 +10,11 @@ let app = new Vue({
                 username_error: '',
                 password: '',
                 password_error: '',
-                remember_me: true
+                remember_me: true,
+                loading:false,
             },
             //登陆成功跳转的url
-            next:'/',
+            next:'/wenda',
         }
     },
     watch: {
@@ -29,19 +30,21 @@ let app = new Vue({
     methods: {
         //访问注册页面
         toRegister: function () {
-            window.location.href = '/register';
+            window.location.href = '/wenda/register';
         },
         //登陆提交
         log: function () {
-            if (this.check_register() && !this.login.error) {
+            if (this.check_register() && !this.login.error && !this.login.loading) {
                 let _t = this;
                 //发送登陆请求
-                axios.post('/login',
+                this.login.loading = true;
+                axios.post('/wenda/login',
                     "username=" + _t.login.username
                     + "&password=" + _t.login.password
                     + "&remember_me=" + _t.login.remember_me
                 ).then(function (value) {
                     let code = value.data.status;
+                    _t.login.loading = false;
                     if (code === 200) {
                         window.location.href = _t.next;
                     } else if (code === 1) {
@@ -51,7 +54,7 @@ let app = new Vue({
                         _t.login.password_error = '密码错误';
                         _t.login.error = true;
                     }
-                })
+                });
             }
         },
         //校验注册信息

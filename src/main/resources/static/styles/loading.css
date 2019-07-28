@@ -1,0 +1,142 @@
+/**
+loading3
+ */
+.spinner {
+    margin:10% auto 0 auto;
+    width:50px;
+    height:50px;
+    position:relative;
+}
+.spinner .spinner-container {
+    position:absolute;
+    width:100%;
+    height:100%;
+}
+.um_content {
+    position:absolute;
+    top:0;
+    right:0;
+    bottom:0;
+    left:0;
+    background-color:rgba(255,255,255,255);
+    z-index:999;
+    overflow:auto;
+}
+#loading3 {
+    position:relative;
+    width:50px;
+    height:50px;
+}
+.demo3 {
+    width:0.3em;
+    height:0.3em;
+    border-radius:2px;
+    background:#68b2ce;
+    position:absolute;
+    animation:demo3 linear 0.8s infinite;
+    -webkit-animation:demo3 linear 0.8s infinite;
+}
+.demo3:nth-child(1) {
+    left:24px;
+    top:2px;
+    animation-delay:0s;
+}
+.demo3:nth-child(2) {
+    left:40px;
+    top:8px;
+    animation-delay:0.1s;
+}
+.demo3:nth-child(3) {
+    left:47px;
+    top:24px;
+    animation-delay:0.1s;
+}
+.demo3:nth-child(4) {
+    left:40px;
+    top:40px;
+    animation-delay:0.2s;
+}
+.demo3:nth-child(5) {
+    left:24px;
+    top:47px;
+    animation-delay:0.4s;
+}
+.demo3:nth-child(6) {
+    left:8px;
+    top:40px;
+    animation-delay:0.5s;
+}
+.demo3:nth-child(7) {
+    left:2px;
+    top:24px;
+    animation-delay:0.6s;
+}
+.demo3:nth-child(8) {
+    left:8px;
+    top:8px;
+    animation-delay:0.7s;
+}
+@keyframes demo3 {
+    0%,40%,100% {
+        transform:scale(1);
+    }
+    20% {
+        transform:scale(3);
+    }
+}@-webkit-keyframes demo3 {
+     0%,40%,100% {
+         transform:scale(1);
+     }
+     20% {
+         transform:scale(3);
+     }
+ }
+
+
+ /**
+ loading
+  */
+.loading{
+    width: 80px;
+    height: 40px;
+    margin: 0 auto;
+    margin-top:100px;
+}
+/**
+#5bc0de;
+#46b8da;
+ */
+
+.loading span{
+    display: inline-block;
+    width: 8px;
+    height: 100%;
+    border-radius: 4px;
+    background: #ebebeb;
+    -webkit-animation: load 1s ease infinite;
+}
+@-webkit-keyframes load{
+    0%,100%{
+        height: 40px;
+        background: rgba(26,26,26,.1);
+    }
+    50%{
+        height: 70px;
+        margin: -15px 0;
+        background: rgba(26,26,26,.1);
+    }
+}
+.loading span:nth-child(2){
+    -webkit-animation-delay:0.2s;
+}
+.loading span:nth-child(3){
+    -webkit-animation-delay:0.4s;
+}
+.loading span:nth-child(4){
+    -webkit-animation-delay:0.6s;
+}
+.loading span:nth-child(5){
+    -webkit-animation-delay:0.8s;
+}
+
+

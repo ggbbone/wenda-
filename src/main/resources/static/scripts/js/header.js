@@ -1,8 +1,15 @@
+
+//公共js
+
 //时间过滤器
 Vue.filter('time', function (data, fomrmat) {
     return moment(data).format(fomrmat || 'HH:mm');
 });
-
+//防止xss
+Vue.prototype.xss = function(msg){
+    return filterXSS(msg);
+    //return msg;
+};
 //数字过滤器
 Vue.filter('likes',function (num,digits) {
     const si = [
@@ -24,14 +31,23 @@ Vue.filter('likes',function (num,digits) {
     return (num / si[i].value).toFixed(digits).replace(rx, "$1") + si[i].symbol;
 });
 
-let base = document.getElementById("baseUrl").value;
 
+
+let base = document.getElementById("baseUrl").value;
+let to_location = document.getElementById("location").value;
 let user = {id:0,name:''};
 
+function checkLogin() {
+    if (user.id <=0){
+        window.location.href='/wenda/login';
+    }
+}
 let header = new Vue({
     el: "#header",
     data() {
         return {
+            //当前位置
+            location: to_location,
             //当前登陆用户名
             user: {id:0,name:''},
             //问题标题
@@ -41,6 +57,9 @@ let header = new Vue({
             content: '',
             content_error: false
         }
+    },
+    watch:{
+
     },
     methods: {
         getUser: function () {

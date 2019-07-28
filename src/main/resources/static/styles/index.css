@@ -2,7 +2,6 @@
 /* Finesse the page header spacing */
 .page-header1 {
     margin-bottom: 30px;
-    padding-top: 10px;
 }
 .page-header1 .lead {
     margin-bottom: 10px;
@@ -42,4 +41,39 @@
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
 
+}
+.question-content {
+    padding-top: 5px;
+    padding-left: 0px;
+}
+.Button {
+    display: inline-block;
+    padding: 0 16px;
+    font-size: 14px;
+    line-height: 32px;
+    color: #8590a6;
+    text-align: center;
+    cursor: pointer;
+    background: none;
+    background-color: rgba(0, 0, 0, 0);
+    border: 1px solid;
+    border-radius: 3px;
+}
+
+.Button--link, .Button--plain {
+    height: auto;
+    padding: 0;
+    line-height: inherit;
+    background-color: transparent;
+    border: none;
+    border-radius: 0;
+    cursor: pointer;
+}
+
+.xiangqing {
+    float: right;
+    padding-right: 20px;
+}
+.question-count {
+    padding-left: 15px;
 }

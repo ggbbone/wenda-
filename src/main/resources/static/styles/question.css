@@ -1,3 +1,22 @@
+div.hide-article-box {
+    width: 100%;
+    background-image: -webkit-gradient(linear,left top, left bottom,from(rgba(255,255,255,0)),color-stop(70%, #fff));
+    background-image: linear-gradient(-180deg,rgba(255,255,255,0) 0%,#fff 70%);
+    padding-bottom: 26px;
+}
+.text-center {
+    text-align: center;
+}
+.hide-article-pos {
+    position: relative;
+    z-index: 9999;
+    padding-top: 160px;
+    bottom: 2px;
+    margin-top: -200px;
+}
+
+
+
 .question-label {
     padding-top: 10px;
 }
@@ -100,30 +119,17 @@
     -webkit-box-orient: vertical;
 
 }
+.close-content-3 {
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
 
-a:link {
-    text-decoration: none;
 }
 
-/*指正常的未被访问过的链接*/
 
-a:visited {
-    text-decoration: none;
-}
-
-/*指已经访问过的链接*/
-
-a:hover {
-    text-decoration: none;
-}
-
-/*指鼠标在链接*/
-
-a:active {
-    text-decoration: none;
-}
-
-/*指正在点的链接*/
 
 .Comments-container {
     height: 100%;
@@ -262,6 +268,9 @@ li {
 }
 .NestComment .NestComment--child {
     position: relative;
+}
+
+.Comment-child {
     padding-left: 33px;
 }
 
@@ -326,4 +335,11 @@ li {
     margin-left: 84px;
     border-bottom: 1px solid #f6f6f6;
     content: "";
+}
+
+.answer-content {
+
+}
+.answer-content img {
+    max-width:100px;max-height:100px;
 }
