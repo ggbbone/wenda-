@@ -4,8 +4,9 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>问答-首页</title>
+    <title>首页-问答</title>
     <link rel="stylesheet" href="${base.contextPath}/styles/index.css">
+    <link rel="stylesheet" href="${base.contextPath}/styles/loading.css">
     #parse("css.html")
 </head>
 <body>
@@ -45,11 +46,16 @@
         </div>
     </div>
 
-    <div>
-        <button type="button" class="btn btn-primary btn-sm btn-block" v-cloak
-                @click="getMore" v-show="next">查看更多问题</button>
+    <div class="loading" v-if="next">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
     </div>
-
+    <div v-else style="text-align: center;padding-top: 15px;">
+        <span class="Button Button--link">没有更多了</span>
+    </div>
 </div>
 
 

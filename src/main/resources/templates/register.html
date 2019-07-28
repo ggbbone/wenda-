@@ -1,107 +1,124 @@
 <!DOCTYPE html>
-<html lang="zh-CN"
-      class="is-AppPromotionBarVisible cssanimations csstransforms csstransitions flexbox no-touchevents no-mobile">
+<html lang="zh-CN">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta name="apple-itunes-app" content="app-id=432274380">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="renderer" content="webkit">
-    <meta name="description" content="一个真实的网络问答社区，帮助你寻找答案，分享知识。">
-    <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1.0">
-    <title>牛客 - 与世界分享你的知识、经验和见解</title>
-    <link rel="dns-prefetch" href="">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>注册-问答</title>
     <link rel="stylesheet" href="${base.contextPath}/styles/login.css">
-    <meta name="google-site-verification" content="FTeR0c8arOPKh8c5DYh_9uu98_zJbaWw53J-Sch9MTg">
-    <meta name="baidu-site-verification" content="KPFppAFoYF4Kkdv9">
-    <meta property="qc:admins" content="00544670776201056375">
-    <link rel="canonical" href="">
-    <meta id="znonce" name="znonce" content="5b6d120cad4b45f3ad5a8683c30594c0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
     <!--[if lt IE 9]>
-    <script src="https://static.zhihu.com/static/components/respond/dest/respond.min.js"></script>
-    <link href="https://static.zhihu.com/static/components/respond/cross-domain/respond-proxy.html" id="respond-proxy"
-          rel="respond-proxy"/>
-    <link href="/static/components/respond/cross-domain/respond.proxy.gif" id="respond-redirect"
-          rel="respond-redirect"/>
-    <script src="/static/components/respond/cross-domain/respond.proxy.js"></script>
+    <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+    <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+    <style>
+        [v-cloak] {
+            display: none;
+        }
+
+        /* 可以设置不同的进入和离开动画 */
+        /* 设置持续时间和动画函数 */
+        .slide-fade-enter-active {
+            transition: all .3s ease;
+        }
+
+        .slide-fade-leave-active {
+            transition: all .3s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+        }
+
+        .slide-fade-enter, .slide-fade-leave-to
+            /* .slide-fade-leave-active for below version 2.1.8 */
+        {
+            transform: translateX(10px);
+            opacity: 0;
+        }
+
+    </style>
 </head>
-<style>
-    /* 可以设置不同的进入和离开动画 */
-    /* 设置持续时间和动画函数 */
-    .slide-fade-enter-active {
-        transition: all .3s ease;
-    }
+<body class="login-body">
+<div id="app">
+    <div class="container">
+        <div class="form-signin" v-cloak>
+            <h4 class="form-signin-heading">注册用户</h4>
+            <div class="form-group has-feedback" :class="{'has-error':register.username_error != ''}">
+                <input type="text" class="form-control" id="inputSuccess1" aria-describedby="helpBlock3"
+                       title="" placeholder="用户名" v-model="register.username" @blur="checkName" maxlength="18">
+                <transition name="slide-fade">
+                    <span id="helpBlock2" class="help-block" v-if="register.username_error != ''">
+                    {{register.username_error}}</span>
+                </transition>
+            </div>
+            <div class="form-group" :class="{'has-error':register.email_error != ''}">
+                <input type="email" class="form-control" id="inputSuccess4" aria-describedby="helpBlock4" maxlength="30"
+                       title="" placeholder="邮箱" v-model="register.email">
+                <transition name="slide-fade">
+                <span id="helpBlock4" class="help-block" v-if="register.email_error != ''">
+                    {{register.email_error}}</span>
+                </transition>
+            </div>
 
-    .slide-fade-leave-active {
-        transition: all .2s cubic-bezier(1.0, 1.0, 0.8, 1.0);
-    }
-
-    .slide-fade-enter, .slide-fade-leave-to
-        /* .slide-fade-leave-active for below version 2.1.8 */
-    {
-        transform: translateX(10px);
-        opacity: 0;
-    }
-
-    [v-cloak] {
-        display: none;
-    }
-</style>
-<body class="zhi no-auth">
-<div class="index-main">
-    <div class="index-main-body">
-        <div class="index-header">
-            <h1 class="logo hide-text"><img src="${base.contextPath}/images/res/nk.png" alt=""></h1>
-            <h2 class="subtitle">与世界分享你的知识、经验和见解</h2>
-        </div>
-        <div class="desk-front sign-flow clearfix sign-flow-simple">
-            <!--注册-->
-            <div class="view view-signup selected" id="app" v-cloak="">
-                <form class="zu-side-login-box" action="" autocomplete="off" novalidate="novalidate">
-                    <input type="password" hidden="">
-                    <input type="hidden" name="_xsrf" value="21aa1c8d254df2899b23ab9afbd62a53">
-                    <div class="group-inputs">
-                        <div class="name input-wrapper">
-                            <input required="" type="text" aria-label="用户名" placeholder="用户名"
-                                   v-model="register.username">
-                            <transition name="slide-fade">
-                                <label class="error" v-if="register.username_error!=''" v-cloak="">
-                                    {{register.username_error}}</label>
-                            </transition>
-                        </div>
-
-                        <div class="input-wrapper">
-                            <input required="" type="password"
-                                   placeholder="密码（不少于 6 位）" v-model="register.password">
-                            <transition name="slide-fade">
-                                <label class="error" v-if="register.password_error!=''" v-cloak="">
-                                    {{register.password_error}}</label>
-                            </transition>
-                        </div>
-                        <div class="input-wrapper">
-                            <input required="" type="password"
-                                   placeholder="确认密码" v-model="register.repwd">
-                            <transition name="slide-fade">
-                                <label class="error" v-if="register.repwd_error!=''" v-cloak="">
-                                    {{register.repwd_error}}</label>
-                            </transition>
-
+            <div class="form-group" :class="{'has-error':register.code_error != ''}">
+                <div class="input-group">
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="inputSuccess6" aria-describedby="helpBlock6"
+                               maxlength="6" placeholder="验证码" v-model="register.code">
+                        <div class="input-group-btn">
+                            <button class="btn btn-default btn-lg code-btn" type="button" @click="getCode" v-if="show">
+                                {{register.code_message}}</button>
+                            <button class="btn btn-default btn-lg code-btn disabled" type="button" v-else>
+                                已发送({{count}})s</button>
                         </div>
                     </div>
-                    <div class="button-wrapper command">
-                        <button class="sign-button submit" type="button" @click="reg">注册</button>
-                        <button class="sign-button submit" type="button" @click="toLogin">已有帐户</button>
-                    </div>
-                </form>
+                    <transition name="slide-fade">
+                    <span id="helpBlock6" class="help-block" v-if="register.code_error != ''">
+                        {{register.code_error}}</span>
+                    </transition>
+                </div>
 
             </div>
+
+            <div class="form-group" :class="{'has-error':register.password_error != ''}">
+                <input type="password" class="form-control" id="inputSuccess3" aria-describedby="helpBlock3"
+                       maxlength="18"
+                       title="" placeholder="密码" v-model="register.password">
+                <transition name="slide-fade">
+                <span id="helpBlock3" class="help-block" v-if="register.password_error != ''">
+                    {{register.password_error}}</span>
+                </transition>
+            </div>
+            <div class="form-group" :class="{'has-error':register.repwd_error != ''}">
+                <input type="password" class="form-control" id="inputSuccess5" aria-describedby="helpBlock5"
+                       maxlength="18"
+                       title="" placeholder="确认密码" v-model="register.repwd">
+                <transition name="slide-fade">
+                <span id="helpBlock5" class="help-block" v-if="register.repwd_error != ''">
+                    {{register.repwd_error}}</span>
+                </transition>
+            </div>
+
+            <div class="login-button">
+                <button class="btn btn-default btn-block button" :class="{'disabled' : register.loading}"
+                        type="button" @click="reg">
+                    注册<span v-if="register.loading">中</span>
+                </button>
+            </div>
+            <div class="register-button">
+                <button class="btn btn-default btn-block button" type="button" @click="toLogin">已有帐户</button>
+            </div>
+
         </div>
+
     </div>
+
 </div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/xss@1.0.6/dist/xss.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js"></script>
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios@0.19.0/dist/axios.min.js"></script>
+<script src="${base.contextPath}/scripts/js/register.js"></script>
 </body>
 </html>
-<!-- 开发环境版本，包含了有帮助的命令行警告 -->
-<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-<script src="${base.contextPath}/scripts/moment.js"></script>
-<script src="${base.contextPath}/scripts/axios.js"></script>
-<script src="${base.contextPath}/scripts/js/register.js"></script>

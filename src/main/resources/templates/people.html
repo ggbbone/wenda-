@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>$!{userInfo.name}的主页-问答</title>
+    <link rel="stylesheet" href="${base.contextPath}/styles/people.css">
+    <link rel="stylesheet" href="${base.contextPath}/styles/loading.css">
+    #parse("css.html")
+</head>
+<body>
+#parse("header.html")
+
+
+<div id="app">
+    <!--个人信息-->
+    <div class="container main">
+        <div>
+            <div class="List-item" tabindex="0">
+                <div class="ContentItem">
+                    <div class="ContentItem-main">
+                        <div class="ContentItem-image">
+                            <span class="UserLink UserItem-avatar">
+                                <div class="Popover">
+                                    <div>
+                                        <a class="UserLink-link" target="_blank"
+                                           :href="'/wenda/users/'+ userInfo.id">
+                                            <img class="Avatar Avatar--large UserLink-avatar"
+                                                 :src="userInfo.headUrl" :alt="userInfo.name" width="160" height="160">
+                                        </a>
+                                    </div>
+                                </div>
+                            </span>
+                        </div>
+                        <div class="ContentItem-head">
+                            <h2 class="ContentItem-title">
+                                <div class="UserItem-title">
+                                    <span class="UserLink UserItem-name">
+                                        <div class="Popover">
+                                            <div v-cloak>
+                                                <a class="UserLink-link" target="_blank"
+                                                   :href="'/wenda/users/' + userInfo.id">{{userInfo.name}}</a>
+                                            </div>
+                                        </div>
+                                    </span>
+                                </div>
+                            </h2>
+                            <div class="ContentItem-meta" v-cloak="">
+                                <div>
+                                    <div class="ztext">一句话介绍</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ContentItem-extra2" v-if="!isMe" v-cloak="">
+                            <button type="button" class="btn btn-default" @click="followerUser(userInfo)"
+                                    v-if="!userInfo.follow">
+                                <span>+关注</span>
+                            </button>
+                            <button type="button" class="btn btn-primary" v-else
+                                    @click="unFollowerUser(userInfo)">
+                                <span>已关注</span>
+                            </button>
+                            <button type="button" class="btn btn-default">私信</button>
+                        </div>
+                        <div class="ContentItem-extra2" v-else="" v-cloak="">
+                            <button type="button" class="btn btn-default">修改个人信息</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div style="padding-top: 10px;"></div>
+    <!--关注列表-->
+    <div class="container main" id="app2" v-cloak="">
+        <!--导航条-->
+        <div>
+            <ul class="nav nav-tabs">
+                <template v-for="(follow_tab, index) in follow_tabs">
+                    <li role="presentation" :class="{'active' : follow_tab_flag == index}">
+                        <a class="button--link" @click="follow_tab_flag = index">{{follow_tab}}</a></li>
+                </template>
+            </ul>
+        </div>
+
+        <!--我关注用户列表-->
+        <div v-if="follow_tab_flag == 0">
+            <!--没有我关注用户-->
+            <div class="EmptyState" v-if="!followee_users.loading && followee_users.list.length == 0">
+                <div class="EmptyState-inner">
+                    <svg width="150" height="120" viewBox="0 0 150 120" class="EmptyState-image" fill="currentColor">
+                        <g fill="none" fill-rule="evenodd">
+                            <path fill="#EBEEF5"
+                                  d="M44 31.005v55.99A3.003 3.003 0 0 0 47.003 90h53.994A3.005 3.005 0 0 0 104 86.995v-55.99A3.003 3.003 0 0 0 100.997 28H47.003A3.005 3.005 0 0 0 44 31.005zm-3 0A6.005 6.005 0 0 1 47.003 25h53.994A6.003 6.003 0 0 1 107 31.005v55.99A6.005 6.005 0 0 1 100.997 93H47.003A6.003 6.003 0 0 1 41 86.995v-55.99z"
+                                  fill-rule="nonzero"></path>
+                            <path fill="#F7F8FA"
+                                  d="M59 50a6 6 0 1 1 0-12 6 6 0 0 1 0 12zm12-9.5c0-.828.68-1.5 1.496-1.5h9.008c.826 0 1.496.666 1.496 1.5 0 .828-.68 1.5-1.496 1.5h-9.008A1.495 1.495 0 0 1 71 40.5zm0 7c0-.828.667-1.5 1.5-1.5h21c.828 0 1.5.666 1.5 1.5 0 .828-.667 1.5-1.5 1.5h-21c-.828 0-1.5-.666-1.5-1.5zM59 73a6 6 0 1 1 0-12 6 6 0 0 1 0 12zm12-9.5c0-.828.68-1.5 1.496-1.5h9.008c.826 0 1.496.666 1.496 1.5 0 .828-.68 1.5-1.496 1.5h-9.008A1.495 1.495 0 0 1 71 63.5zm0 7c0-.828.667-1.5 1.5-1.5h21c.828 0 1.5.666 1.5 1.5 0 .828-.667 1.5-1.5 1.5h-21c-.828 0-1.5-.666-1.5-1.5z"></path>
+                        </g>
+                    </svg>
+                    还没有关注的用户
+                </div>
+            </div>
+            <!--我关注的用户-->
+            <div v-if="!followee_users.loading && followee_users.list.length > 0">
+                <div class="List-item" tabindex="0" v-for="(user, index) in followee_users.list" :key="user.id">
+                    <div class="ContentItem">
+                        <div class="ContentItem-main">
+                            <div class="ContentItem-image">
+                            <span class="UserLink UserItem-avatar">
+                                <div class="Popover">
+                                    <div>
+                                        <a class="UserLink-link" target="_blank"
+                                           :href="'/wenda/users/' + user.id">
+                                            <img class="Avatar Avatar--large UserLink-avatar"
+                                                 :src="user.headUrl"
+                                                 :alt="user.name" width="60" height="60"></a>
+                                    </div>
+                                </div>
+                            </span>
+                            </div>
+                            <div class="ContentItem-head">
+                                <h2 class="ContentItem-title">
+                                    <div class="UserItem-title">
+                                    <span class="UserLink UserItem-name">
+                                        <div class="Popover">
+                                            <div>
+                                                <a class="UserLink-link" target="_blank"
+                                                   :href="'/wenda/users/' + user.id">{{user.name}}</a>
+                                            </div>
+                                        </div>
+                                    </span>
+                                    </div>
+                                </h2>
+                                <div class="ContentItem-meta">
+                                    <div>
+                                        <div class="ztext">一句话介绍</div>
+                                        <div class="ContentItem-status">
+                                            <span class="ContentItem-statusItem">{{user.questions}} 提问</span>
+                                            <span class="ContentItem-statusItem">{{user.answers}} 回答</span>
+                                            <span class="ContentItem-statusItem">{{user.followers}} 关注者</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="ContentItem-extra">
+                                <span v-if="loginUser.id == user.id"></span>
+                                <button type="button" class="btn btn-primary" v-else-if="user.follow" @click="unFollowerUser(user)">已关注</button>
+                                <button type="button" class="btn btn-default" v-else @click="followerUser(user)">
+                                    <span style="display: inline-flex; align-items: center;">​<svg class="Zi Zi--Plus FollowButton-icon" fill="currentColor" viewBox="0 0 24 24" width="1.2em" height="1.2em"><path d="M13.491 10.488s-.012-5.387 0-5.998c-.037-1.987-3.035-1.987-2.997 0-.038 1.912 0 5.998 0 5.998H4.499c-1.999.01-1.999 3.009 0 3.009s5.995-.01 5.995-.01v5.999c0 2.019 3.006 2.019 2.997 0-.01-2.019 0-5.998 0-5.998s3.996.009 6.004.009c2.008 0 2.008-3-.01-3.009h-5.994z" fill-rule="evenodd"></path></svg>
+                                    </span>关注</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--加载动画-->
+            <div class="loading"  v-if="followee_users.loading">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        <!--关注我的用户列表-->
+        <div v-if="follow_tab_flag == 1">
+            <!--没有关注我用户-->
+            <div class="EmptyState" v-if="follower_users.list.length == 0">
+                <div class="EmptyState-inner">
+                    <svg width="150" height="120" viewBox="0 0 150 120" class="EmptyState-image" fill="currentColor">
+                        <g fill="none" fill-rule="evenodd">
+                            <path fill="#EBEEF5"
+                                  d="M44 31.005v55.99A3.003 3.003 0 0 0 47.003 90h53.994A3.005 3.005 0 0 0 104 86.995v-55.99A3.003 3.003 0 0 0 100.997 28H47.003A3.005 3.005 0 0 0 44 31.005zm-3 0A6.005 6.005 0 0 1 47.003 25h53.994A6.003 6.003 0 0 1 107 31.005v55.99A6.005 6.005 0 0 1 100.997 93H47.003A6.003 6.003 0 0 1 41 86.995v-55.99z"
+                                  fill-rule="nonzero"></path>
+                            <path fill="#F7F8FA"
+                                  d="M59 50a6 6 0 1 1 0-12 6 6 0 0 1 0 12zm12-9.5c0-.828.68-1.5 1.496-1.5h9.008c.826 0 1.496.666 1.496 1.5 0 .828-.68 1.5-1.496 1.5h-9.008A1.495 1.495 0 0 1 71 40.5zm0 7c0-.828.667-1.5 1.5-1.5h21c.828 0 1.5.666 1.5 1.5 0 .828-.667 1.5-1.5 1.5h-21c-.828 0-1.5-.666-1.5-1.5zM59 73a6 6 0 1 1 0-12 6 6 0 0 1 0 12zm12-9.5c0-.828.68-1.5 1.496-1.5h9.008c.826 0 1.496.666 1.496 1.5 0 .828-.68 1.5-1.496 1.5h-9.008A1.495 1.495 0 0 1 71 63.5zm0 7c0-.828.667-1.5 1.5-1.5h21c.828 0 1.5.666 1.5 1.5 0 .828-.667 1.5-1.5 1.5h-21c-.828 0-1.5-.666-1.5-1.5z"></path>
+                        </g>
+                    </svg>
+                    还没有关注的用户
+                </div>
+            </div>
+            <!--关注我的用户-->
+            <div v-else="">
+                <div class="List-item" tabindex="0" v-for="(user, index) in follower_users.list" :key="user.id">
+                    <div class="ContentItem">
+                        <div class="ContentItem-main">
+                            <div class="ContentItem-image">
+                            <span class="UserLink UserItem-avatar">
+                                <div class="Popover">
+                                    <div>
+                                        <a class="UserLink-link" target="_blank"
+                                           :href="'/wenda/users/' + user.id">
+                                            <img class="Avatar Avatar--large UserLink-avatar"
+                                                 :src="user.headUrl"
+                                                 :alt="user.name" width="60" height="60"></a>
+                                    </div>
+                                </div>
+                            </span>
+                            </div>
+                            <div class="ContentItem-head">
+                                <h2 class="ContentItem-title">
+                                    <div class="UserItem-title">
+                                    <span class="UserLink UserItem-name">
+                                        <div class="Popover">
+                                            <div>
+                                                <a class="UserLink-link" target="_blank"
+                                                   :href="'/wenda/users/' + user.id">{{user.name}}</a>
+                                            </div>
+                                        </div>
+                                    </span>
+                                    </div>
+                                </h2>
+                                <div class="ContentItem-meta">
+                                    <div>
+                                        <div class="ztext">一句话介绍</div>
+                                        <div class="ContentItem-status">
+                                            <span class="ContentItem-statusItem">{{user.questions}} 提问</span>
+                                            <span class="ContentItem-statusItem">{{user.answers}} 回答</span>
+                                            <span class="ContentItem-statusItem">{{user.followers}} 关注者</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="ContentItem-extra">
+                                <span v-if="loginUser.id == user.id"></span>
+                                <button type="button" class="btn btn-primary" v-else-if="user.follow">已关注</button>
+                                <button type="button" class="btn btn-default" v-else>
+                                    <span style="display: inline-flex; align-items: center;">​<svg class="Zi Zi--Plus FollowButton-icon" fill="currentColor" viewBox="0 0 24 24" width="1.2em" height="1.2em"><path d="M13.491 10.488s-.012-5.387 0-5.998c-.037-1.987-3.035-1.987-2.997 0-.038 1.912 0 5.998 0 5.998H4.499c-1.999.01-1.999 3.009 0 3.009s5.995-.01 5.995-.01v5.999c0 2.019 3.006 2.019 2.997 0-.01-2.019 0-5.998 0-5.998s3.996.009 6.004.009c2.008 0 2.008-3-.01-3.009h-5.994z" fill-rule="evenodd"></path></svg></span>关注</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--关注问题列表-->
+        <div v-if="follow_tab_flag == 2">
+            <!--没有关注问题-->
+            <div class="EmptyState" v-if="follower_questions.list.length == 0">
+                <div class="EmptyState-inner">
+                    <svg width="150" height="120" viewBox="0 0 150 120" class="EmptyState-image" fill="currentColor">
+                        <g fill="none" fill-rule="evenodd">
+                            <path fill="#EBEEF5"
+                                  d="M109.545 78h5.463A2.995 2.995 0 0 0 118 75.01V34.99c0-1.648-1.34-2.99-2.992-2.99H62.992A2.995 2.995 0 0 0 60 34.99v2.027h-3V34.99c0-3.308 2.69-5.99 5.992-5.99h52.016A5.993 5.993 0 0 1 121 34.99v40.02c0 3.308-2.69 5.99-5.992 5.99h-2.744l-.558 5.65c-.217 2.197-1.783 2.842-3.49 1.45l-8.7-7.1h-18.69v-3h19.76l8.29 6.767.67-6.767zM37.33 91.9c-1.942 1.057-3.23.15-2.878-2.027l1.237-7.64A25.886 25.886 0 0 1 30 66c0-14.36 11.637-26 26-26 14.36 0 26 11.637 26 26 0 14.36-11.637 26-26 26-4.627 0-8.973-1.21-12.737-3.327L37.33 91.9zm5.958-6.656l1.447.814A22.878 22.878 0 0 0 56 89c12.705 0 23-10.296 23-23 0-12.705-10.296-23-23-23-12.705 0-23 10.296-23 23a22.894 22.894 0 0 0 5.03 14.36l.833 1.04-1.11 6.855 5.535-3.01zm13.108-31.452c2.304 0 4.176.612 5.616 1.908 1.44 1.26 2.16 2.988 2.16 5.148 0 1.764-.468 3.24-1.368 4.392-.324.396-1.332 1.332-3.024 2.808-.684.576-1.188 1.224-1.512 1.872-.396.72-.576 1.512-.576 2.376v.612H53.84v-.612c0-1.332.216-2.484.72-3.42.468-1.008 1.836-2.484 4.068-4.464l.612-.684c.648-.828 1.008-1.692 1.008-2.628 0-1.26-.36-2.232-1.044-2.952-.72-.72-1.764-1.08-3.06-1.08-1.62 0-2.808.504-3.528 1.548-.648.864-.972 2.088-.972 3.672h-3.78c0-2.628.756-4.68 2.268-6.192 1.512-1.548 3.6-2.304 6.264-2.304zm-.648 21.06c.756 0 1.404.216 1.908.72.504.468.756 1.08.756 1.836s-.288 1.368-.792 1.872a2.703 2.703 0 0 1-1.872.72c-.72 0-1.368-.252-1.872-.756s-.756-1.116-.756-1.836c0-.756.252-1.368.756-1.836.504-.504 1.152-.72 1.872-.72z"
+                                  fill-rule="nonzero"></path>
+                            <path fill="#F7F8FA"
+                                  d="M83.23 56h24.275c.818 0 1.495-.672 1.495-1.5 0-.834-.67-1.5-1.495-1.5H81.93a28.845 28.845 0 0 1 3.002 11h12.56a1.5 1.5 0 1 1 0 3h-12.51a29.422 29.422 0 0 0-.05-3zM72.285 42h35.22c.826 0 1.495.666 1.495 1.5 0 .828-.677 1.5-1.495 1.5H76a28.945 28.945 0 0 0-3.715-3z"></path>
+                        </g>
+                    </svg>
+                    还没有关注的问题
+                </div>
+            </div>
+            <!--关注的问题-->
+            <div class="List-item" tabindex="0" v-else="">
+                <div class="ContentItem">
+                    <h2 class="ContentItem-title">
+                        <div class="QuestionItem-title">
+                            <a href="/question/324427553" target="_blank">能否给一拳超人里所有怪物排名？</a>
+                        </div>
+                    </h2>
+                    <div class="ContentItem-status">
+                        <span class="ContentItem-statusItem">2019-05-15</span>
+                        <span class="ContentItem-statusItem">35 个回答</span>
+                        <span class="ContentItem-statusItem">140 个关注</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+#parse("footer.html")
+<input type="hidden" id="username" value="$!{userInfo.name}">
+<input type="hidden" id="userId" value="$!{userInfo.id}">
+<input type="hidden" id="headUrl" value="$!{userInfo.headUrl}">
+<input type="hidden" id="follower" value="$!{userInfo.follow}">
+<script src="${base.contextPath}/scripts/js/people.js"></script>
+</body>
+</html>
