@@ -9,6 +9,7 @@
     <result column="content" jdbcType="VARCHAR" property="content" />
     <result column="likes" jdbcType="INTEGER" property="likes" />
     <result column="air_id" jdbcType="INTEGER" property="airId" />
+    <result column="state" jdbcType="TINYINT" property="state" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -69,7 +70,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, user_id, created_date, comment_id, content, likes, air_id
+    id, user_id, created_date, comment_id, content, likes, air_id, state
   </sql>
   <select id="selectByExample" parameterType="com.yzg.toutiao.model.example.ReplyExample" resultMap="BaseResultMap">
     select
@@ -104,10 +105,10 @@
   <insert id="insert" parameterType="com.yzg.toutiao.model.Reply">
     insert into reply (id, user_id, created_date, 
       comment_id, content, likes, 
-      air_id)
+      air_id, state)
     values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{createdDate,jdbcType=TIMESTAMP}, 
       #{commentId,jdbcType=INTEGER}, #{content,jdbcType=VARCHAR}, #{likes,jdbcType=INTEGER}, 
-      #{airId,jdbcType=INTEGER})
+      #{airId,jdbcType=INTEGER}, #{state,jdbcType=TINYINT})
   </insert>
   <insert id="insertSelective" parameterType="com.yzg.toutiao.model.Reply">
     insert into reply
@@ -133,6 +134,9 @@
       <if test="airId != null">
         air_id,
       </if>
+      <if test="state != null">
+        state,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -155,6 +159,9 @@
       </if>
       <if test="airId != null">
         #{airId,jdbcType=INTEGER},
+      </if>
+      <if test="state != null">
+        #{state,jdbcType=TINYINT},
       </if>
     </trim>
   </insert>
@@ -188,6 +195,9 @@
       <if test="record.airId != null">
         air_id = #{record.airId,jdbcType=INTEGER},
       </if>
+      <if test="record.state != null">
+        state = #{record.state,jdbcType=TINYINT},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -201,7 +211,8 @@
       comment_id = #{record.commentId,jdbcType=INTEGER},
       content = #{record.content,jdbcType=VARCHAR},
       likes = #{record.likes,jdbcType=INTEGER},
-      air_id = #{record.airId,jdbcType=INTEGER}
+      air_id = #{record.airId,jdbcType=INTEGER},
+      state = #{record.state,jdbcType=TINYINT}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -227,6 +238,9 @@
       <if test="airId != null">
         air_id = #{airId,jdbcType=INTEGER},
       </if>
+      <if test="state != null">
+        state = #{state,jdbcType=TINYINT},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -237,7 +251,8 @@
       comment_id = #{commentId,jdbcType=INTEGER},
       content = #{content,jdbcType=VARCHAR},
       likes = #{likes,jdbcType=INTEGER},
-      air_id = #{airId,jdbcType=INTEGER}
+      air_id = #{airId,jdbcType=INTEGER},
+      state = #{state,jdbcType=TINYINT}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

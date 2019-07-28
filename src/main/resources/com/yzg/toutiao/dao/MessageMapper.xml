@@ -1,14 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yzg.toutiao.dao.MessageMapper">
   <resultMap id="BaseResultMap" type="com.yzg.toutiao.model.Message">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="from_id" jdbcType="INTEGER" property="fromId" />
+    <result column="from_name" jdbcType="VARCHAR" property="fromName" />
     <result column="to_id" jdbcType="INTEGER" property="toId" />
     <result column="content" jdbcType="VARCHAR" property="content" />
     <result column="has_read" jdbcType="TINYINT" property="hasRead" />
     <result column="created_date" jdbcType="TIMESTAMP" property="createdDate" />
     <result column="entity_id" jdbcType="INTEGER" property="entityId" />
     <result column="entity_type" jdbcType="TINYINT" property="entityType" />
+    <result column="entity_title" jdbcType="VARCHAR" property="entityTitle" />
+    <result column="entity_url" jdbcType="VARCHAR" property="entityUrl" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -69,7 +73,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, from_id, to_id, content, has_read, created_date, entity_id, entity_type
+    id, from_id, from_name, to_id, content, has_read, created_date, entity_id, entity_type, 
+    entity_title, entity_url
   </sql>
   <select id="selectByExample" parameterType="com.yzg.toutiao.model.example.MessageExample" resultMap="BaseResultMap">
     select
@@ -102,12 +107,14 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.yzg.toutiao.model.Message">
-    insert into message (id, from_id, to_id, 
-      content, has_read, created_date, 
-      entity_id, entity_type)
-    values (#{id,jdbcType=INTEGER}, #{fromId,jdbcType=INTEGER}, #{toId,jdbcType=INTEGER}, 
-      #{content,jdbcType=VARCHAR}, #{hasRead,jdbcType=TINYINT}, #{createdDate,jdbcType=TIMESTAMP}, 
-      #{entityId,jdbcType=INTEGER}, #{entityType,jdbcType=TINYINT})
+    insert into message (id, from_id, from_name, 
+      to_id, content, has_read, 
+      created_date, entity_id, entity_type, 
+      entity_title, entity_url)
+    values (#{id,jdbcType=INTEGER}, #{fromId,jdbcType=INTEGER}, #{fromName,jdbcType=VARCHAR}, 
+      #{toId,jdbcType=INTEGER}, #{content,jdbcType=VARCHAR}, #{hasRead,jdbcType=TINYINT}, 
+      #{createdDate,jdbcType=TIMESTAMP}, #{entityId,jdbcType=INTEGER}, #{entityType,jdbcType=TINYINT}, 
+      #{entityTitle,jdbcType=VARCHAR}, #{entityUrl,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.yzg.toutiao.model.Message">
     insert into message
@@ -117,6 +124,9 @@
       </if>
       <if test="fromId != null">
         from_id,
+      </if>
+      <if test="fromName != null">
+        from_name,
       </if>
       <if test="toId != null">
         to_id,
@@ -136,6 +146,12 @@
       <if test="entityType != null">
         entity_type,
       </if>
+      <if test="entityTitle != null">
+        entity_title,
+      </if>
+      <if test="entityUrl != null">
+        entity_url,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -143,6 +159,9 @@
       </if>
       <if test="fromId != null">
         #{fromId,jdbcType=INTEGER},
+      </if>
+      <if test="fromName != null">
+        #{fromName,jdbcType=VARCHAR},
       </if>
       <if test="toId != null">
         #{toId,jdbcType=INTEGER},
@@ -162,6 +181,12 @@
       <if test="entityType != null">
         #{entityType,jdbcType=TINYINT},
       </if>
+      <if test="entityTitle != null">
+        #{entityTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="entityUrl != null">
+        #{entityUrl,jdbcType=VARCHAR},
+      </if>
     </trim>
   </insert>
   <select id="countByExample" parameterType="com.yzg.toutiao.model.example.MessageExample" resultType="java.lang.Long">
@@ -178,6 +203,9 @@
       </if>
       <if test="record.fromId != null">
         from_id = #{record.fromId,jdbcType=INTEGER},
+      </if>
+      <if test="record.fromName != null">
+        from_name = #{record.fromName,jdbcType=VARCHAR},
       </if>
       <if test="record.toId != null">
         to_id = #{record.toId,jdbcType=INTEGER},
@@ -197,6 +225,12 @@
       <if test="record.entityType != null">
         entity_type = #{record.entityType,jdbcType=TINYINT},
       </if>
+      <if test="record.entityTitle != null">
+        entity_title = #{record.entityTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="record.entityUrl != null">
+        entity_url = #{record.entityUrl,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -206,12 +240,15 @@
     update message
     set id = #{record.id,jdbcType=INTEGER},
       from_id = #{record.fromId,jdbcType=INTEGER},
+      from_name = #{record.fromName,jdbcType=VARCHAR},
       to_id = #{record.toId,jdbcType=INTEGER},
       content = #{record.content,jdbcType=VARCHAR},
       has_read = #{record.hasRead,jdbcType=TINYINT},
       created_date = #{record.createdDate,jdbcType=TIMESTAMP},
       entity_id = #{record.entityId,jdbcType=INTEGER},
-      entity_type = #{record.entityType,jdbcType=TINYINT}
+      entity_type = #{record.entityType,jdbcType=TINYINT},
+      entity_title = #{record.entityTitle,jdbcType=VARCHAR},
+      entity_url = #{record.entityUrl,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -221,6 +258,9 @@
     <set>
       <if test="fromId != null">
         from_id = #{fromId,jdbcType=INTEGER},
+      </if>
+      <if test="fromName != null">
+        from_name = #{fromName,jdbcType=VARCHAR},
       </if>
       <if test="toId != null">
         to_id = #{toId,jdbcType=INTEGER},
@@ -240,18 +280,27 @@
       <if test="entityType != null">
         entity_type = #{entityType,jdbcType=TINYINT},
       </if>
+      <if test="entityTitle != null">
+        entity_title = #{entityTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="entityUrl != null">
+        entity_url = #{entityUrl,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.yzg.toutiao.model.Message">
     update message
     set from_id = #{fromId,jdbcType=INTEGER},
+      from_name = #{fromName,jdbcType=VARCHAR},
       to_id = #{toId,jdbcType=INTEGER},
       content = #{content,jdbcType=VARCHAR},
       has_read = #{hasRead,jdbcType=TINYINT},
       created_date = #{createdDate,jdbcType=TIMESTAMP},
       entity_id = #{entityId,jdbcType=INTEGER},
-      entity_type = #{entityType,jdbcType=TINYINT}
+      entity_type = #{entityType,jdbcType=TINYINT},
+      entity_title = #{entityTitle,jdbcType=VARCHAR},
+      entity_url = #{entityUrl,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

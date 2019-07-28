@@ -9,6 +9,7 @@
     <result column="content" jdbcType="VARCHAR" property="content" />
     <result column="likes" jdbcType="INTEGER" property="likes" />
     <result column="air_id" jdbcType="INTEGER" property="airId" />
+    <result column="state" jdbcType="TINYINT" property="state" />
     <result column="user_name" jdbcType="VARCHAR" property="userName" />
     <result column="user_head_url" jdbcType="VARCHAR" property="userHeadUrl" />
     <result column="air_name" jdbcType="VARCHAR" property="airName" />
@@ -73,8 +74,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, user_id, created_date, comment_id, content, likes, air_id, user_name, user_head_url, 
-    air_name, air_head_url
+    id, user_id, created_date, comment_id, content, likes, air_id, state, user_name, 
+    user_head_url, air_name, air_head_url
   </sql>
   <select id="selectByExample" parameterType="com.yzg.toutiao.model.example.ReplyUserExample" resultMap="BaseResultMap">
     select
@@ -99,12 +100,14 @@
   <insert id="insert" parameterType="com.yzg.toutiao.model.ReplyUser">
     insert into reply_user (id, user_id, created_date, 
       comment_id, content, likes, 
-      air_id, user_name, user_head_url, 
-      air_name, air_head_url)
+      air_id, state, user_name, 
+      user_head_url, air_name, air_head_url
+      )
     values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{createdDate,jdbcType=TIMESTAMP}, 
       #{commentId,jdbcType=INTEGER}, #{content,jdbcType=VARCHAR}, #{likes,jdbcType=INTEGER}, 
-      #{airId,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR}, #{userHeadUrl,jdbcType=VARCHAR}, 
-      #{airName,jdbcType=VARCHAR}, #{airHeadUrl,jdbcType=VARCHAR})
+      #{airId,jdbcType=INTEGER}, #{state,jdbcType=TINYINT}, #{userName,jdbcType=VARCHAR}, 
+      #{userHeadUrl,jdbcType=VARCHAR}, #{airName,jdbcType=VARCHAR}, #{airHeadUrl,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.yzg.toutiao.model.ReplyUser">
     insert into reply_user
@@ -129,6 +132,9 @@
       </if>
       <if test="airId != null">
         air_id,
+      </if>
+      <if test="state != null">
+        state,
       </if>
       <if test="userName != null">
         user_name,
@@ -164,6 +170,9 @@
       </if>
       <if test="airId != null">
         #{airId,jdbcType=INTEGER},
+      </if>
+      <if test="state != null">
+        #{state,jdbcType=TINYINT},
       </if>
       <if test="userName != null">
         #{userName,jdbcType=VARCHAR},
@@ -209,6 +218,9 @@
       <if test="record.airId != null">
         air_id = #{record.airId,jdbcType=INTEGER},
       </if>
+      <if test="record.state != null">
+        state = #{record.state,jdbcType=TINYINT},
+      </if>
       <if test="record.userName != null">
         user_name = #{record.userName,jdbcType=VARCHAR},
       </if>
@@ -235,6 +247,7 @@
       content = #{record.content,jdbcType=VARCHAR},
       likes = #{record.likes,jdbcType=INTEGER},
       air_id = #{record.airId,jdbcType=INTEGER},
+      state = #{record.state,jdbcType=TINYINT},
       user_name = #{record.userName,jdbcType=VARCHAR},
       user_head_url = #{record.userHeadUrl,jdbcType=VARCHAR},
       air_name = #{record.airName,jdbcType=VARCHAR},

@@ -9,6 +9,7 @@
     <result column="created_date" jdbcType="TIMESTAMP" property="createdDate" />
     <result column="comment_count" jdbcType="INTEGER" property="commentCount" />
     <result column="likes" jdbcType="INTEGER" property="likes" />
+    <result column="state" jdbcType="TINYINT" property="state" />
     <result column="user_id" jdbcType="INTEGER" property="userId" />
     <result column="user_name" jdbcType="VARCHAR" property="userName" />
     <result column="head_url" jdbcType="VARCHAR" property="headUrl" />
@@ -72,7 +73,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, entity_id, entity_type, content, created_date, comment_count, likes, user_id, 
+    id, entity_id, entity_type, content, created_date, comment_count, likes, state, user_id, 
     user_name, head_url
   </sql>
   <select id="selectByExample" parameterType="com.yzg.toutiao.model.example.CommentUserExample" resultMap="BaseResultMap">
@@ -98,12 +99,12 @@
   <insert id="insert" parameterType="com.yzg.toutiao.model.CommentUser">
     insert into comment_user (id, entity_id, entity_type, 
       content, created_date, comment_count, 
-      likes, user_id, user_name, 
-      head_url)
+      likes, state, user_id, 
+      user_name, head_url)
     values (#{id,jdbcType=INTEGER}, #{entityId,jdbcType=INTEGER}, #{entityType,jdbcType=INTEGER}, 
       #{content,jdbcType=VARCHAR}, #{createdDate,jdbcType=TIMESTAMP}, #{commentCount,jdbcType=INTEGER}, 
-      #{likes,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR}, 
-      #{headUrl,jdbcType=VARCHAR})
+      #{likes,jdbcType=INTEGER}, #{state,jdbcType=TINYINT}, #{userId,jdbcType=INTEGER}, 
+      #{userName,jdbcType=VARCHAR}, #{headUrl,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.yzg.toutiao.model.CommentUser">
     insert into comment_user
@@ -128,6 +129,9 @@
       </if>
       <if test="likes != null">
         likes,
+      </if>
+      <if test="state != null">
+        state,
       </if>
       <if test="userId != null">
         user_id,
@@ -160,6 +164,9 @@
       </if>
       <if test="likes != null">
         #{likes,jdbcType=INTEGER},
+      </if>
+      <if test="state != null">
+        #{state,jdbcType=TINYINT},
       </if>
       <if test="userId != null">
         #{userId,jdbcType=INTEGER},
@@ -202,6 +209,9 @@
       <if test="record.likes != null">
         likes = #{record.likes,jdbcType=INTEGER},
       </if>
+      <if test="record.state != null">
+        state = #{record.state,jdbcType=TINYINT},
+      </if>
       <if test="record.userId != null">
         user_id = #{record.userId,jdbcType=INTEGER},
       </if>
@@ -225,6 +235,7 @@
       created_date = #{record.createdDate,jdbcType=TIMESTAMP},
       comment_count = #{record.commentCount,jdbcType=INTEGER},
       likes = #{record.likes,jdbcType=INTEGER},
+      state = #{record.state,jdbcType=TINYINT},
       user_id = #{record.userId,jdbcType=INTEGER},
       user_name = #{record.userName,jdbcType=VARCHAR},
       head_url = #{record.headUrl,jdbcType=VARCHAR}

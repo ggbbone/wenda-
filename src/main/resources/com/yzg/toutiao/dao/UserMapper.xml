@@ -1,211 +1,303 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yzg.toutiao.dao.UserMapper">
-  <resultMap id="BaseResultMap" type="com.yzg.toutiao.model.User">
-    <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="name" jdbcType="VARCHAR" property="name" />
-    <result column="password" jdbcType="VARCHAR" property="password" />
-    <result column="salt" jdbcType="VARCHAR" property="salt" />
-    <result column="head_url" jdbcType="VARCHAR" property="headUrl" />
-  </resultMap>
-  <sql id="Example_Where_Clause">
-    <where>
-      <foreach collection="oredCriteria" item="criteria" separator="or">
-        <if test="criteria.valid">
-          <trim prefix="(" prefixOverrides="and" suffix=")">
-            <foreach collection="criteria.criteria" item="criterion">
-              <choose>
-                <when test="criterion.noValue">
-                  and ${criterion.condition}
-                </when>
-                <when test="criterion.singleValue">
-                  and ${criterion.condition} #{criterion.value}
-                </when>
-                <when test="criterion.betweenValue">
-                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-                </when>
-                <when test="criterion.listValue">
-                  and ${criterion.condition}
-                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
-                    #{listItem}
-                  </foreach>
-                </when>
-              </choose>
+    <resultMap id="BaseResultMap" type="com.yzg.toutiao.model.User">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="password" jdbcType="VARCHAR" property="password"/>
+        <result column="salt" jdbcType="VARCHAR" property="salt"/>
+        <result column="head_url" jdbcType="VARCHAR" property="headUrl"/>
+        <result column="email" jdbcType="VARCHAR" property="email"/>
+        <result column="headline" jdbcType="VARCHAR" property="headline"/>
+        <result column="state" jdbcType="TINYINT" property="state"/>
+    </resultMap>
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
             </foreach>
-          </trim>
-        </if>
-      </foreach>
-    </where>
-  </sql>
-  <sql id="Update_By_Example_Where_Clause">
-    <where>
-      <foreach collection="example.oredCriteria" item="criteria" separator="or">
-        <if test="criteria.valid">
-          <trim prefix="(" prefixOverrides="and" suffix=")">
-            <foreach collection="criteria.criteria" item="criterion">
-              <choose>
-                <when test="criterion.noValue">
-                  and ${criterion.condition}
-                </when>
-                <when test="criterion.singleValue">
-                  and ${criterion.condition} #{criterion.value}
-                </when>
-                <when test="criterion.betweenValue">
-                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-                </when>
-                <when test="criterion.listValue">
-                  and ${criterion.condition}
-                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
-                    #{listItem}
-                  </foreach>
-                </when>
-              </choose>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause">
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
             </foreach>
-          </trim>
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
+    id, name, password, salt, head_url, email, headline, state
+  </sql>
+    <select id="selectByExample" parameterType="com.yzg.toutiao.model.example.UserExample" resultMap="BaseResultMap">
+        select
+        <if test="distinct">
+            distinct
         </if>
-      </foreach>
-    </where>
-  </sql>
-  <sql id="Base_Column_List">
-    id, name, password, salt, head_url
-  </sql>
-  <select id="selectByExample" parameterType="com.yzg.toutiao.model.example.UserExample" resultMap="BaseResultMap">
-    select
-    <if test="distinct">
-      distinct
-    </if>
-    <include refid="Base_Column_List" />
-    from user
-    <if test="_parameter != null">
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null">
-      order by ${orderByClause}
-    </if>
-  </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from user
-    where id = #{id,jdbcType=INTEGER}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        <include refid="Base_Column_List"/>
+        from user
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+    </select>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from user
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from user
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="com.yzg.toutiao.model.example.UserExample">
-    delete from user
-    <if test="_parameter != null">
-      <include refid="Example_Where_Clause" />
-    </if>
-  </delete>
-  <insert id="insert" parameterType="com.yzg.toutiao.model.User">
+    <delete id="deleteByExample" parameterType="com.yzg.toutiao.model.example.UserExample">
+        delete from user
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </delete>
+    <insert id="insert" parameterType="com.yzg.toutiao.model.User">
     insert into user (id, name, password, 
-      salt, head_url)
+      salt, head_url, email, 
+      headline, state)
     values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
-      #{salt,jdbcType=VARCHAR}, #{headUrl,jdbcType=VARCHAR})
+      #{salt,jdbcType=VARCHAR}, #{headUrl,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
+      #{headline,jdbcType=VARCHAR}, #{state,jdbcType=TINYINT})
   </insert>
-  <insert id="insertSelective" parameterType="com.yzg.toutiao.model.User">
-    insert into user
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
-      <if test="name != null">
-        name,
-      </if>
-      <if test="password != null">
-        password,
-      </if>
-      <if test="salt != null">
-        salt,
-      </if>
-      <if test="headUrl != null">
-        head_url,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=INTEGER},
-      </if>
-      <if test="name != null">
-        #{name,jdbcType=VARCHAR},
-      </if>
-      <if test="password != null">
-        #{password,jdbcType=VARCHAR},
-      </if>
-      <if test="salt != null">
-        #{salt,jdbcType=VARCHAR},
-      </if>
-      <if test="headUrl != null">
-        #{headUrl,jdbcType=VARCHAR},
-      </if>
-    </trim>
-  </insert>
-  <select id="countByExample" parameterType="com.yzg.toutiao.model.example.UserExample" resultType="java.lang.Long">
-    select count(*) from user
-    <if test="_parameter != null">
-      <include refid="Example_Where_Clause" />
-    </if>
-  </select>
-  <update id="updateByExampleSelective" parameterType="map">
-    update user
-    <set>
-      <if test="record.id != null">
-        id = #{record.id,jdbcType=INTEGER},
-      </if>
-      <if test="record.name != null">
+    <insert id="insertSelective" parameterType="com.yzg.toutiao.model.User">
+        insert into user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="name != null">
+                name,
+            </if>
+            <if test="password != null">
+                password,
+            </if>
+            <if test="salt != null">
+                salt,
+            </if>
+            <if test="headUrl != null">
+                head_url,
+            </if>
+            <if test="email != null">
+                email,
+            </if>
+            <if test="headline != null">
+                headline,
+            </if>
+            <if test="state != null">
+                state,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null">
+                #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="salt != null">
+                #{salt,jdbcType=VARCHAR},
+            </if>
+            <if test="headUrl != null">
+                #{headUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="email != null">
+                #{email,jdbcType=VARCHAR},
+            </if>
+            <if test="headline != null">
+                #{headline,jdbcType=VARCHAR},
+            </if>
+            <if test="state != null">
+                #{state,jdbcType=TINYINT},
+            </if>
+        </trim>
+    </insert>
+    <select id="countByExample" parameterType="com.yzg.toutiao.model.example.UserExample" resultType="java.lang.Long">
+        select count(*) from user
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
+        update user
+        <set>
+            <if test="record.id != null">
+                id = #{record.id,jdbcType=INTEGER},
+            </if>
+            <if test="record.name != null">
+                name = #{record.name,jdbcType=VARCHAR},
+            </if>
+            <if test="record.password != null">
+                password = #{record.password,jdbcType=VARCHAR},
+            </if>
+            <if test="record.salt != null">
+                salt = #{record.salt,jdbcType=VARCHAR},
+            </if>
+            <if test="record.headUrl != null">
+                head_url = #{record.headUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="record.email != null">
+                email = #{record.email,jdbcType=VARCHAR},
+            </if>
+            <if test="record.headline != null">
+                headline = #{record.headline,jdbcType=VARCHAR},
+            </if>
+            <if test="record.state != null">
+                state = #{record.state,jdbcType=TINYINT},
+            </if>
+        </set>
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map">
+        update user
+        set id = #{record.id,jdbcType=INTEGER},
         name = #{record.name,jdbcType=VARCHAR},
-      </if>
-      <if test="record.password != null">
         password = #{record.password,jdbcType=VARCHAR},
-      </if>
-      <if test="record.salt != null">
         salt = #{record.salt,jdbcType=VARCHAR},
-      </if>
-      <if test="record.headUrl != null">
         head_url = #{record.headUrl,jdbcType=VARCHAR},
-      </if>
-    </set>
-    <if test="_parameter != null">
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByExample" parameterType="map">
-    update user
-    set id = #{record.id,jdbcType=INTEGER},
-      name = #{record.name,jdbcType=VARCHAR},
-      password = #{record.password,jdbcType=VARCHAR},
-      salt = #{record.salt,jdbcType=VARCHAR},
-      head_url = #{record.headUrl,jdbcType=VARCHAR}
-    <if test="_parameter != null">
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.yzg.toutiao.model.User">
-    update user
-    <set>
-      <if test="name != null">
-        name = #{name,jdbcType=VARCHAR},
-      </if>
-      <if test="password != null">
-        password = #{password,jdbcType=VARCHAR},
-      </if>
-      <if test="salt != null">
-        salt = #{salt,jdbcType=VARCHAR},
-      </if>
-      <if test="headUrl != null">
-        head_url = #{headUrl,jdbcType=VARCHAR},
-      </if>
-    </set>
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.yzg.toutiao.model.User">
+        email = #{record.email,jdbcType=VARCHAR},
+        headline = #{record.headline,jdbcType=VARCHAR},
+        state = #{record.state,jdbcType=TINYINT}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="com.yzg.toutiao.model.User">
+        update user
+        <set>
+            <if test="name != null">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null">
+                password = #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="salt != null">
+                salt = #{salt,jdbcType=VARCHAR},
+            </if>
+            <if test="headUrl != null">
+                head_url = #{headUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="email != null">
+                email = #{email,jdbcType=VARCHAR},
+            </if>
+            <if test="headline != null">
+                headline = #{headline,jdbcType=VARCHAR},
+            </if>
+            <if test="state != null">
+                state = #{state,jdbcType=TINYINT},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.yzg.toutiao.model.User">
     update user
     set name = #{name,jdbcType=VARCHAR},
       password = #{password,jdbcType=VARCHAR},
       salt = #{salt,jdbcType=VARCHAR},
-      head_url = #{headUrl,jdbcType=VARCHAR}
+      head_url = #{headUrl,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      headline = #{headline,jdbcType=VARCHAR},
+      state = #{state,jdbcType=TINYINT}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+    <resultMap id="userInfoMap" type="com.yzg.toutiao.model.UserInfo">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="head_url" jdbcType="VARCHAR" property="headUrl"/>
+        <result column="headline" jdbcType="VARCHAR" property="headline"/>
+        <result column="answer_counts" jdbcType="INTEGER" property="answers"/>
+        <result column="question_counts" jdbcType="INTEGER" property="questions"/>
+    </resultMap>
+    <!--查询用户和用户的回答数量和用户的问题数量-->
+    <select id="getUserInfoById" resultType="com.yzg.toutiao.model.UserInfo" resultMap="userInfoMap">
+    SELECT
+  `u`.`id`       AS `id`,
+  `u`.`name`     AS `name`,
+  `u`.`password` AS `password`,
+  `u`.`salt`     AS `salt`,
+  `u`.`head_url` AS `head_url`,
+  `u`.`email`    AS `email`,
+  `u`.`headline` AS `headline`,
+  `u`.`state`    AS `state`,
+    c.answer_counts,
+    q.question_counts
+FROM
+`user` u
+LEFT JOIN
+(SELECT
+c.`user_id`,
+COUNT(c.`user_id`) AS answer_counts
+FROM
+`comment` c
+WHERE c.`entity_type`=1
+GROUP BY c.`user_id`) c
+ON u.`id`=c.user_id
+LEFT JOIN
+(SELECT
+q.`user_id`,
+COUNT(q.`user_id`) AS question_counts
+FROM
+`question` q
+GROUP BY q.`user_id`) q
+ON u.`id`=q.user_id
+where u.`id`=#{id,jdbcType=INTEGER}
+  </select>
 </mapper>
