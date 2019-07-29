@@ -7,6 +7,8 @@ public class Message {
 
     private Integer fromId;
 
+    private String fromName;
+
     private Integer toId;
 
     private String content;
@@ -18,6 +20,10 @@ public class Message {
     private Integer entityId;
 
     private Byte entityType;
+
+    private String entityTitle;
+
+    private String entityUrl;
 
     public Integer getId() {
         return id;
@@ -33,6 +39,14 @@ public class Message {
 
     public void setFromId(Integer fromId) {
         this.fromId = fromId;
+    }
+
+    public String getFromName() {
+        return fromName;
+    }
+
+    public void setFromName(String fromName) {
+        this.fromName = fromName == null ? null : fromName.trim();
     }
 
     public Integer getToId() {
@@ -81,5 +95,21 @@ public class Message {
 
     public void setEntityType(Byte entityType) {
         this.entityType = entityType;
+    }
+
+    public String getEntityTitle() {
+        return entityTitle;
+    }
+
+    public void setEntityTitle(String entityTitle) {
+        this.entityTitle = entityTitle == null ? null : entityTitle.trim();
+    }
+
+    public String getEntityUrl() {
+        return entityUrl;
+    }
+
+    public void setEntityUrl(String entityUrl) {
+        this.entityUrl = entityUrl == null ? null : entityUrl.trim();
     }
 }
