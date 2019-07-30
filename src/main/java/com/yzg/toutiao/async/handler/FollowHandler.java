@@ -13,6 +13,8 @@ import java.util.List;
 /**
  * @author yzg
  * @create 2019/7/23
+ *
+ * 关注事件处理
  */
 @Component
 public class FollowHandler implements EventHandler {

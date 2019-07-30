@@ -24,24 +24,25 @@ import java.util.Map;
  */
 @Component
 public class RegisterHandler implements EventHandler {
+    private static final Logger LOGGER = LoggerFactory.getLogger(RegisterHandler.class);
+
     @Autowired
     MailSender mailSender;
     @Autowired
     JedisAdapter jedisAdapter;
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(RegisterHandler.class);
 
     @Override
     public void doHandle(EventModel model) {
         LOGGER.info("注册事件处理");
         Map<String, Object> map = new HashMap<>();
         map.put("username", model.getExt("username"));
-        map.put("link", model.getExt("link"));
+        map.put("code", model.getExt("code"));
         mailSender.sendWithHTMLTemplate(model.getExt("email"),
                 "欢迎注册问答网", "mails/register_check.html", map);
-        //code存入redis,有效期24小时
-        jedisAdapter.set(RedisKeyUtils.getRegisterCodeByUserId(model.getActorId()),
-                model.getExt("code"), 3600*24);
+        //code存入redis,有效期600s
+        jedisAdapter.set(RedisKeyUtils.getRegisterCodeByUserId(model.getExt("email")),
+                model.getExt("code"), 600);
     }
 
     @Override
