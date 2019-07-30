@@ -10,7 +10,10 @@ public enum  EventType {
     COMMENT(1),
     LOGIN(2),
     REGISTER(3),
-    EMAIL(4);
+    EMAIL(4),
+    FOLLOW(5),
+    ;
+
 
     private int value;
     EventType(int value){

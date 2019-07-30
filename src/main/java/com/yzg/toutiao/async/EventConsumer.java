@@ -61,12 +61,10 @@ public class EventConsumer implements InitializingBean, ApplicationContextAware 
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                LOGGER.info("线程开始读取事件");
                 while (true){
                     String key = RedisKeyUtils.getEventQueue();
                     List<String> events = jedisAdapter.brpop(0, key);
                     for (String message : events){
-                        LOGGER.info("读取事件:"+ message);
                         if (message.equals(key)){
                             continue;
                         }
@@ -76,7 +74,6 @@ public class EventConsumer implements InitializingBean, ApplicationContextAware 
                             continue;
                         }
                         for (EventHandler handler : config.get(eventModel.getType())){
-                            LOGGER.info("识别到事件：");
                             handler.doHandle(eventModel);
                         }
                     }
