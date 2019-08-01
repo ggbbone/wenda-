@@ -3,6 +3,7 @@ package com.yzg.toutiao.service;
 import com.yzg.toutiao.utils.RedisKeyUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import redis.clients.jedis.Jedis;
 
 /**
  * @author yzg
@@ -88,7 +89,7 @@ public class LikeService {
     }
 
     /**
-     * 点赞人数
+     * 获取点赞人数
      * @param entityType
      * @param entityId
      * @return

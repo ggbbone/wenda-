@@ -84,8 +84,21 @@ public class QuestionController {
     public ModelAndView toQuestion(@PathVariable(value = "questionId") int questionId,
                              ModelAndView modelAndView){
         modelAndView.setViewName("question");
+        modelAndView.addObject("location","question");
         Question question = questionService.getQuestionById(questionId);
         modelAndView.addObject(question);
         return modelAndView;
+    }
+
+    /**
+     * 根据标题搜索问题
+     * @param kw
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/search",method = RequestMethod.GET)
+    public Result getQuestionByLikeTitle(@RequestParam String kw){
+        List<Question> questions = questionService.getQuestionByTitle(kw);
+        return new Result().success().data(questions);
     }
 }

@@ -16,56 +16,58 @@
 <div id="app">
     <!--问题信息-->
     <div class="container main" style="min-height: 100px;">
-        <div class="question-label">
-            <span class="label label-info" style="font-size: 100%"><a href="#${base.contextPath}/">问题标签</a></span>
+        <div class="question-info">
+            <div class="question-label">
+                <span class="label label-info" style="font-size: 100%"><a href="#${base.contextPath}/">问题标签</a></span>
+            </div>
+
+            <h3 style="font-weight: 600">$!{question.title}</h3>
+            <div :class="{'close-content-3' : question_close}" v-cloak>$!{question.content}</div>
+            <div style="text-decoration: none;font-size: 14px;color: grey;float: right" v-cloak>
+                <a href="javascript:;" @click="question_close = false" v-if="question_close == true">
+                    查看全部
+                    <span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
+                </a>
+                <a href="javascript:;" @click="question_close = true" v-if="question_close == false">
+                    收起
+                    <span class="glyphicon glyphicon-chevron-up" aria-hidden="true"></span>
+                </a>
+            </div>
+
+            <div style="padding-top: 20px;">
+                <button type="button" class="btn btn-info">
+                    关注问题
+                </button>
+                &nbsp;
+                <button type="button" class="btn btn-default" @click="writerAnswer" v-cloak>
+                    <span class="glyphicon glyphicon-pencil" aria-hidden="true" v-if="editor_flag == 0">写回答</span>
+                    <span v-else>取消回答</span>
+                </button>
+
+            </div>
         </div>
 
-        <h3 style="font-weight: 600">$!{question.title}</h3>
-        <div :class="{'close-content-3' : question_close}" v-cloak>$!{question.content}</div>
-        <div style="text-decoration: none;font-size: 14px;color: grey;float: right" v-cloak>
-            <a href="javascript:;" @click="question_close = false" v-if="question_close == true">
-                查看全部
-                <span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
-            </a>
-            <a href="javascript:;" @click="question_close = true" v-if="question_close == false">
-                收起
-                <span class="glyphicon glyphicon-chevron-up" aria-hidden="true"></span>
-            </a>
-        </div>
-
-        <div style="padding-top: 15px;">
-            <button type="button" class="btn btn-info">
-                关注问题
-            </button>
-            &nbsp;
-            <button type="button" class="btn btn-default" @click="writerAnswer" v-cloak>
-                <span class="glyphicon glyphicon-pencil" aria-hidden="true" v-if="editor_flag == 0">写回答</span>
-                <span v-else>取消回答</span>
-            </button>
-
-        </div>
     </div>
     <br>
-    <!--回答文本编辑器-->
-    <div class="container main" v-show="editor_flag == 1" style="padding-top: 15px;" v-cloak>
-        <div id="editor"></div>
-        <div style="float: top;padding-top: 10px;">
-            <button type="button" class="btn btn-primary" @click="submit">
-                <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
-                提交
-            </button>
-            <button type="button" class="btn btn-default" @click="editor_flag = 0">
-                <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-                取消
-            </button>
-        </div>
-    </div>
-
 
     <!--回答列表-->
     <div class="container main" style="min-height: 800px;">
+        <!--回答文本编辑器-->
+        <div v-show="editor_flag == 1" style="padding: 20px;" v-cloak>
+            <div id="editor"></div>
+            <div style="float: top;padding-top: 10px;">
+                <button type="button" class="btn btn-primary" @click="submit">
+                    <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                    提交
+                </button>
+                <button type="button" class="btn btn-default" @click="editor_flag = 0">
+                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                    取消
+                </button>
+            </div>
+        </div>
         <!--回答列表头部-->
-        <div>
+        <div class="answer-head">
             <ul class="nav nav-tabs" style="color: #0f88eb">
                 <li style="color: black">
                     <h5 v-cloak v-if="page_answer.total != 0">共{{page_answer.total}}条回答</h5>
@@ -81,117 +83,118 @@
 
         </div>
 
-        <div class="answer" v-cloak v-for="(answer,index) in answers" :key="answer.id">
-            <div class="AuthorInfo">
-                <a :href="'${base.contextPath}/users/' + answer.userId" target="_blank">
-                    <img class="head38" :src="answer.headUrl">&nbsp;
-                    <span class="AuthorInfo-name">{{answer.userName}}</span>
-                </a>
-            </div>
-            <div style="padding-top: 10px;">
+        <div class="answer-list">
+            <div class="answer" v-cloak v-for="(answer,index) in answers" :key="answer.id">
+                <div class="AuthorInfo">
+                    <a :href="'${base.contextPath}/users/' + answer.userId" target="_blank">
+                        <img class="head38" :src="answer.headUrl">&nbsp;
+                        <span class="AuthorInfo-name">{{answer.userName}}</span>
+                    </a>
+                </div>
+                <div style="padding-top: 10px;">
                 <span class="Voters">
                     <button type="button" class="Button Button--plain">{{answer.likes}}人赞同了该回答</button></span>
-            </div>
-            <div style="padding-top: 10px" :class="{'close-content' : answer.flag == 0}">
-                <span v-html="xss(answer.content)" class="answer-content"></span>
-            </div>
-            <div style="text-align: center;font-size:15px;color: #0f88eb">
-                <a href="javascript:;" v-cloak @click="answer.flag = 1" v-show="answer.flag == 0">
-                    <span aria-hidden="true" class="glyphicon glyphicon-chevron-down"></span>
-                    阅读全文
-                </a>
-            </div>
-            <div style="padding-top: 10px;">
+                </div>
+                <div style="padding-top: 10px" :class="{'close-content' : answer.flag == 0}">
+                    <span v-html="xss(answer.content)" class="answer-content"></span>
+                </div>
+                <div style="text-align: center;font-size:15px;color: #0f88eb">
+                    <a href="javascript:;" v-cloak @click="answer.flag = 1" v-show="answer.flag == 0">
+                        <span aria-hidden="true" class="glyphicon glyphicon-chevron-down"></span>
+                        阅读全文
+                    </a>
+                </div>
+                <div style="padding-top: 10px;">
                 <span class="Button Button--plain">
                     发布于{{answer.createdDate | time('YYYY-MM-DD')}}
                 </span>
-                <span style="float: right;" v-show="answer.flag == 1">
+                    <span style="float: right;" v-show="answer.flag == 1">
                     <a href="javascript:;" class="shouqi" @click="answer.flag = 0">
                         收起&nbsp;<span aria-hidden="true" class="glyphicon glyphicon-chevron-up"></span>
                     </a>
                 </span>
-            </div>
-            <div style="padding-top: 10px;">
-                <button class="btn btn-default" :class="{'btn-primary' : answer.isLike == 1}" @click="delLikeAnswer(answer)"
-                        v-if="answer.isLike == 1" title="已赞同">
-                    <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
-                    <span>已赞同</span>
-                    {{answer.likes | likes}}
-                </button>
-                <button class="btn btn-default" @click="likeAnswer(answer)"
-                        v-else title="点赞">
-                    <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
-                    <span >&nbsp;&nbsp;&nbsp;赞同</span>
-                    {{answer.likes | likes}}
-                </button>
-                <button class="btn btn-default" :class="{'btn-primary' : answer.isLike == -1}" data-toggle="tooltip"
-                        data-placement="bottom" title="踩" @click="disLikeAnswer(answer)">
-                    <span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>
-                </button>
-                <span class="Button Button--plain" style="padding-left: 10px"
-                      @click="openComment(index)">
+                </div>
+                <div style="padding-top: 10px;">
+                    <button class="btn btn-default" :class="{'btn-primary' : answer.isLike == 1}" @click="delLikeAnswer(answer)"
+                            v-if="answer.isLike == 1" title="已赞同">
+                        <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
+                        <span>已赞同</span>
+                        {{answer.likes | likes}}
+                    </button>
+                    <button class="btn btn-default" @click="likeAnswer(answer)"
+                            v-else title="点赞">
+                        <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
+                        <span >&nbsp;&nbsp;&nbsp;赞同</span>
+                        {{answer.likes | likes}}
+                    </button>
+                    <button class="btn btn-default" :class="{'btn-primary' : answer.isLike == -1}" data-toggle="tooltip"
+                            data-placement="bottom" title="踩" @click="disLikeAnswer(answer)">
+                        <span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>
+                    </button>
+                    <span class="Button Button--plain" style="padding-left: 10px"
+                          @click="openComment(index)">
                     <span class="glyphicon glyphicon-comment" aria-hidden="true"></span>
                     <span v-if="answer.openComment == 0">{{answer.commentCount}}条评论</span>
                     <span v-else>收起评论</span>
                 </span>
 
-                <div class="dropdown Button Button--plain" style="float: right">
+                    <div class="dropdown Button Button--plain" style="float: right">
                     <span class="dropdown-toggle" data-toggle="dropdown" role="button"
                           style="color: #8590a6;"
                           aria-haspopup="true" aria-expanded="false">
                             <span class="glyphicon glyphicon-option-horizontal" aria-hidden="true"></span>
                     </span>
-                    <ul class="dropdown-menu dropdown-menu-right " aria-labelledby="dropdownMenu1">
-                        <li v-if="answer.delete == 0"><a href="${base.contextPath}/">举报</a></li>
-                        <li v-else-if="answer.delete == 1"><a href="${base.contextPath}/">删除</a></li>
-                    </ul>
+                        <ul class="dropdown-menu dropdown-menu-right " aria-labelledby="dropdownMenu1">
+                            <li v-if="answer.delete == 0"><a href="${base.contextPath}/">举报</a></li>
+                            <li v-else-if="answer.delete == 1"><a href="${base.contextPath}/">删除</a></li>
+                        </ul>
+                    </div>
                 </div>
-            </div>
 
-            <!--评论-->
-            <div class="Comments-container" v-if="answer.openComment == 1" :id="'answer_' + answer.id">
-                <div class="CommentsV2 CommentsV2--withEditor CommentsV2-withPagination">
-                    <!--评论头部-->
-                    <div class="Topbar CommentTopbar">
-                        <div class="Topbar-title">
-                            <!--评论总数-->
-                            <span class="CommentTopbar-title">{{answer.page.total}} 条评论</span>
-                        </div>
-                        <!--排序条件-->
-                        <div class="Topbar-options">
-                            <button type="button" class="Button Button--plain">
+                <!--评论-->
+                <div class="Comments-container" v-if="answer.openComment == 1" :id="'answer_' + answer.id">
+                    <div class="CommentsV2 CommentsV2--withEditor CommentsV2-withPagination">
+                        <!--评论头部-->
+                        <div class="Topbar CommentTopbar">
+                            <div class="Topbar-title">
+                                <!--评论总数-->
+                                <span class="CommentTopbar-title">{{answer.page.total}} 条评论</span>
+                            </div>
+                            <!--排序条件-->
+                            <div class="Topbar-options">
+                                <button type="button" class="Button Button--plain">
                                 <span style="display: inline-flex; align-items: center;">
                                     <svg class="Zi Zi--Switch Button-zi" fill="currentColor" viewBox="0 0 24 24"
                                          width="1.2em" height="1.2em">
                                         </svg>
                                 </span>切换为时间排序
-                            </button>
-                        </div>
-                    </div>
-
-                    <!--评论列表-->
-                    <div class="CommentListV2">
-                        <div v-if="answer.loading" style="text-align: center;padding-top: 30px;padding-bottom: 10px;">
-                            <div class="Button Button--plain">
-                                <div id="loading3">
-                                    <div class="demo3"></div>
-                                    <div class="demo3"></div>
-                                    <div class="demo3"></div>
-                                    <div class="demo3"></div>
-                                    <div class="demo3"></div>
-                                    <div class="demo3"></div>
-                                    <div class="demo3"></div>
-                                    <div class="demo3"></div>
-                                </div>
+                                </button>
                             </div>
                         </div>
-                        <!--一个评论-->
-                        <ul class="NestComment" v-for="(comment, index_comment) in answer.comments" :key="comment.id">
-                            <li :class="{'NestComment--rootComment' : comment.replies.length > 0}">
-                                <div class="CommentItemV2">
-                                    <div>
-                                        <!--评论作者信息-->
-                                        <div class="CommentItemV2-meta">
+
+                        <!--评论列表-->
+                        <div class="CommentListV2">
+                            <div v-if="answer.loading" style="text-align: center;padding-top: 30px;padding-bottom: 10px;">
+                                <div class="Button Button--plain">
+                                    <div id="loading3">
+                                        <div class="demo3"></div>
+                                        <div class="demo3"></div>
+                                        <div class="demo3"></div>
+                                        <div class="demo3"></div>
+                                        <div class="demo3"></div>
+                                        <div class="demo3"></div>
+                                        <div class="demo3"></div>
+                                        <div class="demo3"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--一个评论-->
+                            <ul class="NestComment" v-for="(comment, index_comment) in answer.comments" :key="comment.id">
+                                <li :class="{'NestComment--rootComment' : comment.replies.length > 0}">
+                                    <div class="CommentItemV2">
+                                        <div>
+                                            <!--评论作者信息-->
+                                            <div class="CommentItemV2-meta">
                                             <span class="UserLink CommentItemV2-avatar">
                                                 <div class="Popover">
                                                     <div aria-haspopup="true" aria-expanded="false"
@@ -203,7 +206,7 @@
                                                     </div>
                                                 </div>
                                             </span>
-                                            <span class="UserLink">
+                                                <span class="UserLink">
                                                 <a class="UserLink-link" target="_blank"
                                                    :href="'${base.contextPath}/users' + comment.userId">
                                                     {{comment.userName}}
@@ -211,50 +214,50 @@
                                                           class="CommentItemV2-roleInfo">(作者)</span>
                                                 </a>
                                             </span>
-                                            <span class="CommentItemV2-time">{{comment.createdDate | time('YYYY-MM-DD')}}</span>
-                                        </div>
-                                        <!--评论信息-->
-                                        <div class="CommentItemV2-metaSibling">
-                                            <div>
-                                                <!--评论内容-->
-                                                <div class="CommentRichText CommentItemV2-content">
-                                                    <div class="RichText ztext">{{comment.content}}</div>
-                                                </div>
-                                                <!--评论操作-->
-                                                <div class="CommentItemV2-footer">
-                                                    <!--赞-->
-                                                    <button type="button" class="Button Button--plain comment-active">
+                                                <span class="CommentItemV2-time">{{comment.createdDate | time('YYYY-MM-DD')}}</span>
+                                            </div>
+                                            <!--评论信息-->
+                                            <div class="CommentItemV2-metaSibling">
+                                                <div>
+                                                    <!--评论内容-->
+                                                    <div class="CommentRichText CommentItemV2-content">
+                                                        <div class="RichText ztext">{{comment.content}}</div>
+                                                    </div>
+                                                    <!--评论操作-->
+                                                    <div class="CommentItemV2-footer">
+                                                        <!--赞-->
+                                                        <button type="button" class="Button Button--plain comment-active">
                                                     <span class="glyphicon glyphicon-thumbs-up"
                                                           aria-hidden="true"></span>
-                                                        {{comment.likes}}
-                                                    </button>
-                                                    <button type="button" class="Button Button--plain">
-                                                        踩
-                                                    </button>
-                                                    <!--回复-->
-                                                    <button type="button" class="Button Button--plain"
-                                                            style="float: right"
-                                                            @click="openCommentEditor(comment)">
+                                                            {{comment.likes}}
+                                                        </button>
+                                                        <button type="button" class="Button Button--plain">
+                                                            踩
+                                                        </button>
+                                                        <!--回复-->
+                                                        <button type="button" class="Button Button--plain"
+                                                                style="float: right"
+                                                                @click="openCommentEditor(comment)">
                                                     <span style="display: inline-flex; align-items: center;">​
                                                     </span>
-                                                        <template v-if="comment.editor.flag == 0">
-                                                            回复
-                                                        </template>
-                                                        <template v-else-if="comment.editor.flag == 1">
-                                                            取消回复
-                                                        </template>
-                                                    </button>
+                                                            <template v-if="comment.editor.flag == 0">
+                                                                回复
+                                                            </template>
+                                                            <template v-else-if="comment.editor.flag == 1">
+                                                                取消回复
+                                                            </template>
+                                                        </button>
 
-                                                </div>
-                                                <!--评论回复框-->
-                                                <div>
-                                                    <div class="CommentItemV2-editor CommentEditorV2--normal"
-                                                         v-if="comment.editor.flag == 1">
-                                                        <div class="input-group">
-                                                            <input type="text" class="form-control"
-                                                                   v-model="comment.editor.content"
-                                                                   :placeholder="'回复' + comment.userName">
-                                                            <span class="input-group-btn">
+                                                    </div>
+                                                    <!--评论回复框-->
+                                                    <div>
+                                                        <div class="CommentItemV2-editor CommentEditorV2--normal"
+                                                             v-if="comment.editor.flag == 1">
+                                                            <div class="input-group">
+                                                                <input type="text" class="form-control"
+                                                                       v-model="comment.editor.content"
+                                                                       :placeholder="'回复' + comment.userName">
+                                                                <span class="input-group-btn">
                                                                 <button class="btn btn-default"
                                                                         :class="{'disabled' : comment.editor.content == ''}"
                                                                         @click="submitReply(comment)"
@@ -264,23 +267,23 @@
                                                                         type="button">收起</button>
                                                             </span>
 
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
+                                                <span></span>
                                             </div>
-                                            <span></span>
                                         </div>
                                     </div>
-                                </div>
-                            </li>
+                                </li>
 
-                            <!--评论的回复-->
+                                <!--评论的回复-->
 
-                            <li class="Comment-child NestComment--child" v-for="(reply, index_reply) in comment.replies"
-                                :key="reply.id">
-                                <div class="CommentItemV2">
-                                    <div>
-                                        <div class="CommentItemV2-meta">
+                                <li class="Comment-child NestComment--child" v-for="(reply, index_reply) in comment.replies"
+                                    :key="reply.id">
+                                    <div class="CommentItemV2">
+                                        <div>
+                                            <div class="CommentItemV2-meta">
                                             <span class="UserLink CommentItemV2-avatar">
                                                 <div class="Popover">
                                                     <div aria-haspopup="true" aria-expanded="false"
@@ -293,121 +296,123 @@
                                                     </div>
                                                 </div>
                                             </span>
-                                            <span class="UserLink">
+                                                <span class="UserLink">
                                                 <a class="UserLink-link" target="_blank"
                                                    :href="'${base.contextPath}/users' + reply.userId">
                                                     {{reply.userName}}</a>
                                             </span>
-                                            <template v-if="comment.userId != reply.userId">
-                                                <span class="CommentItemV2-reply">回复</span>
-                                                <span class="UserLink">
+                                                <template v-if="comment.userId != reply.userId">
+                                                    <span class="CommentItemV2-reply">回复</span>
+                                                    <span class="UserLink">
                                                 <a class="UserLink-link" target="_blank"
                                                    :href="'${base.contextPath}/users' + reply.airId">
                                                     {{reply.airName}}</a>
                                             </span>
-                                            </template>
+                                                </template>
 
-                                            <span class="CommentItemV2-time">{{reply.createdDate | time('YYYY-MM-DD')}}</span>
-                                        </div>
+                                                <span class="CommentItemV2-time">{{reply.createdDate | time('YYYY-MM-DD')}}</span>
+                                            </div>
 
-                                        <div class="CommentItemV2-metaSibling">
-                                            <div style="">
-                                                <div class="CommentRichText CommentItemV2-content">
-                                                    <div class="RichText ztext">{{reply.content}}</div>
-                                                </div>
+                                            <div class="CommentItemV2-metaSibling">
+                                                <div style="">
+                                                    <div class="CommentRichText CommentItemV2-content">
+                                                        <div class="RichText ztext">{{reply.content}}</div>
+                                                    </div>
 
-                                                <div class="CommentItemV2-footer">
-                                                    <!--赞-->
-                                                    <button type="button" class="Button Button--plain comment-active">
+                                                    <div class="CommentItemV2-footer">
+                                                        <!--赞-->
+                                                        <button type="button" class="Button Button--plain comment-active">
                                                     <span class="glyphicon glyphicon-thumbs-up"
                                                           aria-hidden="true"></span>
-                                                        {{reply.likes}}
-                                                    </button>
-                                                    <!--回复-->
-                                                    <button type="button" class="Button Button--plain"
-                                                            @click="reply.editor.flag = 1"
-                                                            v-if="reply.editor.flag == 0 && reply.userId != user.id">
+                                                            {{reply.likes}}
+                                                        </button>
+                                                        <!--回复-->
+                                                        <button type="button" class="Button Button--plain"
+                                                                @click="reply.editor.flag = 1"
+                                                                v-if="reply.editor.flag == 0 && reply.userId != user.id">
                                                     <span style="display: inline-flex; align-items: center;">​
                                                     </span>回复
-                                                    </button>
-                                                    <button type="button" class="Button Button--plain"
-                                                            @click="reply.editor.flag = 0"
-                                                            v-if="reply.editor.flag == 1">
-                                                        取消回复
-                                                    </button>
+                                                        </button>
+                                                        <button type="button" class="Button Button--plain"
+                                                                @click="reply.editor.flag = 0"
+                                                                v-if="reply.editor.flag == 1">
+                                                            取消回复
+                                                        </button>
 
-                                                </div>
-                                                <!--回复框-->
-                                                <div v-if="reply.editor.flag == 1">
-                                                    <div class="CommentItemV2-editor CommentEditorV2--normal">
-                                                        <div class="input-group">
-                                                            <input type="text" class="form-control"
-                                                                   v-model="reply.editor.content"
-                                                                   :placeholder="'回复' + reply.userName">
-                                                            <span class="input-group-btn">
+                                                    </div>
+                                                    <!--回复框-->
+                                                    <div v-if="reply.editor.flag == 1">
+                                                        <div class="CommentItemV2-editor CommentEditorV2--normal">
+                                                            <div class="input-group">
+                                                                <input type="text" class="form-control"
+                                                                       v-model="reply.editor.content"
+                                                                       :placeholder="'回复' + reply.userName">
+                                                                <span class="input-group-btn">
                                                             <button class="btn btn-primary"
                                                                     :class="{'disabled' : reply.editor.content == ''}"
                                                                     type="button" @click="replyToReply(comment,reply)">回复</button>
                                                         </span>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
 
-                            </li>
-
-                            <!--查看更多回复-->
-                            <li>
-                                <div class="CommentMoreReplyButton">
-                                    <button type="button" class="Button Button--plain" @click="getReplies(comment)"
-                                            v-if="comment.page.total>=3 && !comment.loading && comment.replies.length <= 2">
-                                        查看全部 {{comment.page.total}} 条回复
-                                    </button>
-                                    <span class="Button Button--plain" v-if="comment.loading">加载中......</span>
-                                </div>
-                            </li>
-                        </ul>
-
-                    </div>
-                    <!--分页条-->
-                    <div class="offset" v-if="!answer.loading && answer.page.pages > 1">
-                        <div>
-                            <ul class="pagination">
-                                <li v-if="answer.page.num != 1">
-                                    <a href="javascript:;" @click="lastAnswerPage(answer)">
-                                        <span aria-hidden="true">上一页</span>
-                                    </a>
                                 </li>
-                                <li class="disabled">
-                                    <a href="javascript:;">{{answer.page.num}}</a>
-                                </li>
-                                <li v-if="answer.page.num != answer.page.pages">
-                                    <a href="javascript:;" aria-label="Next" @click="nextAnswerPage(answer)">
-                                        <span aria-hidden="true">下一页</span>
-                                    </a>
+
+                                <!--查看更多回复-->
+                                <li>
+                                    <div class="CommentMoreReplyButton">
+                                        <button type="button" class="Button Button--plain" @click="getReplies(comment)"
+                                                v-if="comment.page.total>=3 && !comment.loading && comment.replies.length <= 2">
+                                            查看全部 {{comment.page.total}} 条回复
+                                        </button>
+                                        <span class="Button Button--plain" v-if="comment.loading">加载中......</span>
+                                    </div>
                                 </li>
                             </ul>
 
                         </div>
-                    </div>
+                        <!--分页条-->
+                        <div class="offset" v-if="!answer.loading && answer.page.pages > 1">
+                            <div>
+                                <ul class="pagination">
+                                    <li v-if="answer.page.num != 1">
+                                        <a href="javascript:;" @click="lastAnswerPage(answer)">
+                                            <span aria-hidden="true">上一页</span>
+                                        </a>
+                                    </li>
+                                    <li class="disabled">
+                                        <a href="javascript:;">{{answer.page.num}}</a>
+                                    </li>
+                                    <li v-if="answer.page.num != answer.page.pages">
+                                        <a href="javascript:;" aria-label="Next" @click="nextAnswerPage(answer)">
+                                            <span aria-hidden="true">下一页</span>
+                                        </a>
+                                    </li>
+                                </ul>
 
-                    <!--评论输入框-->
-                    <div class="comment-input">
-                        <div class="input-group">
-                            <input type="text" class="form-control" placeholder="写下你的评论..."
-                                   v-model="answer.comment_content">
-                            <span class="input-group-btn">
+                            </div>
+                        </div>
+
+                        <!--评论输入框-->
+                        <div class="comment-input">
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="写下你的评论..."
+                                       v-model="answer.comment_content">
+                                <span class="input-group-btn">
                             <button class="btn btn-primary" :class="{'disabled' : answer.comment_content == ''}"
                                     type="button" @click="postComment(answer)">评论</button>
                         </span>
+                            </div>
                         </div>
-                    </div>
 
+                    </div>
                 </div>
             </div>
+
         </div>
         <!--回答列表数据-->
         <div class="loading" v-if="page_answer.next">

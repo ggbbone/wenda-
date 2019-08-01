@@ -93,4 +93,23 @@ public class QuestionService {
         }
         return question;
     }
+
+    public Question selectQuestionById(int id){
+        return questionMapper.selectByPrimaryKey(id);
+    }
+
+
+    /**
+     * 根据标题模糊搜索问题
+     * @param title
+     * @return
+     */
+    public List<Question> getQuestionByTitle(String title){
+        QuestionExample questionExample = new QuestionExample();
+        questionExample.setOrderByClause(" comment_count desc");
+        questionExample.createCriteria().andTitleLike("%"+title+"%");
+        PageHelper.offsetPage(0,10);
+        List<Question> questions = questionMapper.selectByExample(questionExample);
+        return questions;
+    }
 }

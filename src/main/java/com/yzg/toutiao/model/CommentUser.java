@@ -26,10 +26,24 @@ public class CommentUser {
 
     private String headUrl;
 
+
     /**
      * 评论下的回复
      */
     private List<ReplyUser> replies;
+
+    /**
+     * 评论是否被当前用户点赞
+     */
+    private Byte isLike;
+
+    public Byte getIsLike() {
+        return isLike;
+    }
+
+    public void setIsLike(Byte isLike) {
+        this.isLike = isLike;
+    }
 
     public List<ReplyUser> getReplies() {
         return replies;

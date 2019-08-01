@@ -10,6 +10,7 @@ import com.yzg.toutiao.model.example.ReplyUserExample;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.util.HtmlUtils;
 
 import java.util.Date;
 import java.util.List;
@@ -68,7 +69,7 @@ public class ReplyService {
         reply.setUserId(userId);
         reply.setAirId(airId);
         reply.setCommentId(commentId);
-        reply.setContent(content);
+        reply.setContent(HtmlUtils.htmlEscape(content));
 
         replyMapper.insertSelective(reply);
         //修改评论的回复数量

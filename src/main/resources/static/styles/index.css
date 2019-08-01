@@ -1,7 +1,9 @@
 
 /* Finesse the page header spacing */
 .page-header1 {
-    margin-bottom: 30px;
+    padding-top: 20px;
+    padding-right: 20px;
+    padding-left: 20px;
 }
 .page-header1 .lead {
     margin-bottom: 10px;
@@ -12,6 +14,15 @@
     -webkit-box-shadow: none;
     box-shadow: none;
     border-bottom: 1px solid #f0f2f7;
+    padding: 20px;
+}
+.FeedSource-firstline {
+    margin-bottom: 6px;
+    color: #8590a6;
+    height: 24px;
+}
+.FeedSource-byline {
+    margin-bottom: 10px;
 }
 .AuthorInfo {
     display: -webkit-box;
@@ -20,6 +31,37 @@
     -webkit-box-align: center;
     -ms-flex-align: center;
     align-items: center;
+}
+.AuthorInfo-content {
+    -webkit-box-flex: 1;
+    -ms-flex: 1 1;
+    flex: 1 1;
+    margin-left: 14px;
+    overflow: hidden;
+}
+.AuthorInfo-head {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    font-size: 15px;
+    line-height: 1.1;
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+}
+.AuthorInfo-name {
+    font-weight: 600;
+    font-synthesis: style;
+    color: #444;
+}
+.ContentItem-title {
+    font-size: 18px;
+    font-weight: 600;
+    font-synthesis: style;
+    line-height: 1.6;
+    color: #1a1a1a;
 }
 .ContentItem-time {
     margin-top: 10px;

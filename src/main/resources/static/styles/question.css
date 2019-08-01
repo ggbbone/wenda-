@@ -15,10 +15,12 @@ div.hide-article-box {
     margin-top: -200px;
 }
 
-
+.question-info {
+    padding: 20px;
+}
 
 .question-label {
-    padding-top: 10px;
+
 }
 
 .QuestionRichText-more {
@@ -47,13 +49,21 @@ div.hide-article-box {
     color: #8590a6;
 }
 
+.answer-head {
+    padding-top: 20px;
+    padding-left: 20px;
+    padding-right: 20px;
+
+}
+.answer-list{
+
+}
 .answer {
     margin-bottom: 0;
     -webkit-box-shadow: none;
     box-shadow: none;
     border-bottom: 1px solid #f0f2f7;
-    padding-top: 15px;
-    padding-bottom: 15px;
+    padding: 20px;
 }
 
 .AuthorInfo {
@@ -72,6 +82,7 @@ div.hide-article-box {
     font-synthesis: style;
     color: #444;
 }
+
 
 .Button {
     display: inline-block;

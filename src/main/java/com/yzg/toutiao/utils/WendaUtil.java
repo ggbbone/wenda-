@@ -11,7 +11,9 @@ import java.util.Map;
  */
 public class WendaUtil {
     private static final Logger logger = LoggerFactory.getLogger(WendaUtil.class);
-
+    public static int SYSTEM_USERID = 0;
+    public static String CHECK_REGISTER_URL = "http://127.0.0.1/wenda/check/register/";
+    public static String BASE = "wenda";
     public static String MD5(String key) {
         char hexDigits[] = {
                 '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'

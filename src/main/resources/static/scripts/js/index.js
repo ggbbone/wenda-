@@ -5,12 +5,17 @@ let app = new Vue({
     el: "#app",
     data() {
         return {
-            //问题列表数据
-            questions: [],
+            //选中标签 1推荐 2关注  3热榜
             header: 1,
+            //推荐问题列表数据
+            questions: [],
+
             offset: 0,
             limit: 10,
             orderBy: 'created_date',
+
+
+
             next: false,
             loading:false,
             bottomHight: 90,//滚动条到某个位置才触发时间

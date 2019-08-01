@@ -1,4 +1,3 @@
-
 let username = document.getElementById("username").value;
 let userId = document.getElementById("userId").value;
 let headUrl = document.getElementById("headUrl").value;
@@ -7,9 +6,10 @@ let app1 = new Vue({
     el: "#app",
     data() {
         return {
+            bottomHight: 50,//滚动条到某个位置才触发事件
             //他的信息
-            userInfo:{
-                id:userId,
+            userInfo: {
+                id: userId,
                 name: username,
                 headUrl: headUrl,
                 //是否关注他
@@ -23,11 +23,12 @@ let app1 = new Vue({
             //当前登陆用户
             loginUser: {id: 0},
             //关注他的人
-            follower_users: {list: [], offset: 1, limit: 10, total: 0,loading:false},
+            follower_users: {list: [], offset: 1, limit: 10, total: 0, next: true, loading: false},
             //他关注的人
-            followee_users: {list: [], offset: 1, limit: 10, total: 0,loading:false},
+            followee_users: {list: [], offset: 1, limit: 10, total: 0, next: true, loading: false},
             //他关注的问题
             follower_questions: {list: [], offset: 1, limit: 10, total: 0},
+
         }
     },
     watch: {
@@ -76,41 +77,78 @@ let app1 = new Vue({
             })
         },
         //获取他关注的用户列表
-        getFollowersByUser() {
+        getFolloweesByUser() {
             let _t = this;
             _t.followee_users.loading = true;
             axios.get(base + '/followees/user/' + userId, {
                 params: {
-                    offset: _t.follower_users.offset,
-                    limit: _t.follower_users.limit
+                    offset: _t.followee_users.offset,
+                    limit: _t.followee_users.limit
                 }
             }).then(function (value) {
                 _t.followee_users.loading = false;
                 if (value.data.status === 200) {
-                    _t.followee_users.list = value.data.data;
-
+                    let users = value.data.data;
+                    for (let i = 0; i < users.length; i++) {
+                        users[i].follow_msg = "已关注";
+                        _t.followee_users.list.push(users[i]);
+                    }
+                    if (users.length < _t.followee_users.limit) {
+                        _t.followee_users.next = false;
+                    }
                 } else {
 
                 }
             })
         },
         //获取关注他的用户列表
-        getFolloweesByUser() {
+        getFollowersByUser() {
             let _t = this;
             _t.follower_users.loading = true;
             axios.get(base + '/followers/user/' + userId, {
                 params: {
-                    offset: _t.followee_users.offset,
-                    limit: _t.followee_users.limit
+                    offset: _t.follower_users.offset,
+                    limit: _t.follower_users.limit
                 }
             }).then(function (value) {
                 _t.follower_users.loading = false;
                 if (value.data.status === 200) {
-                    _t.follower_users.list = value.data.data;
+                    let users = value.data.data;
+                    for (let i = 0; i < users.length; i++) {
+                        users[i].follow_msg = "已关注";
+                        _t.follower_users.list.push(users[i]);
+                    }
                 } else {
 
                 }
             })
+        },
+        //鼠标悬停显示取消关注
+        followEnter: function (user) {
+            user.follow_msg = '取消关注';
+        },
+        //鼠标移出
+        followLeave: function (user) {
+            user.follow_msg = "已关注";
+
+        },
+        //获取更多他关注的列表
+        getMoreFollowees() {
+            this.followee_users.offset = this.followee_users.offset + this.followee_users.limit;
+            this.getFolloweesByUser();
+        },
+        //滚动条到底部触发加载更多
+        handleScroll: function () {
+            if (this.follow_tab_flag === 0) {
+                if (getScrollBottomHeight() <= this.bottomHight &&
+                    this.followee_users.next &&
+                    this.followee_users.loading === false) {
+                    this.getMoreFollowees();
+                }
+            }else if (this.follow_tab_flag === 1) {
+
+            }
+
         }
     },
     created: function () {
@@ -120,3 +158,39 @@ let app1 = new Vue({
     }
 
 });
+
+//添加滚动事件
+window.onload = function () {
+    window.addEventListener('scroll', app1.handleScroll)
+};
+
+//滚动条到底部的距离
+function getScrollBottomHeight() {
+    return getPageHeight() - getScrollTop() - getWindowHeight();
+
+}
+//页面高度
+function getPageHeight() {
+    return document.querySelector("html").scrollHeight
+}
+//滚动条顶 高度
+function getScrollTop() {
+    let scrollTop = 0, bodyScrollTop = 0, documentScrollTop = 0;
+    if (document.body) {
+        bodyScrollTop = document.body.scrollTop;
+    }
+    if (document.documentElement) {
+        documentScrollTop = document.documentElement.scrollTop;
+    }
+    scrollTop = (bodyScrollTop - documentScrollTop > 0) ? bodyScrollTop : documentScrollTop;
+    return scrollTop;
+}
+function getWindowHeight() {
+    let windowHeight = 0;
+    if (document.compatMode == "CSS1Compat") {
+        windowHeight = document.documentElement.clientHeight;
+    } else {
+        windowHeight = document.body.clientHeight;
+    }
+    return windowHeight;
+}

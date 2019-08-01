@@ -1,15 +1,16 @@
 package com.yzg.toutiao.dao;
 
 import com.yzg.toutiao.model.User;
+import com.yzg.toutiao.model.UserInfo;
 import com.yzg.toutiao.model.example.UserExample;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
 @Mapper
 public interface UserMapper {
-
     long countByExample(UserExample example);
 
     int deleteByExample(UserExample example);
@@ -31,4 +32,6 @@ public interface UserMapper {
     int updateByPrimaryKeySelective(User record);
 
     int updateByPrimaryKey(User record);
+
+    UserInfo getUserInfoById(@Param("id") int id);
 }

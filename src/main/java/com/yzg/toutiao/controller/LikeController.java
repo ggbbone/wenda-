@@ -52,7 +52,8 @@ public class LikeController {
             eventProducer.fireEvent(new EventModel(EventType.LIKE)
                     .setActorId(hostHolder.getUser().getId())
                     .setEntityId(entityId)
-                    .setEntityType(type));
+                    .setEntityType(type)
+                    .setExt("fromName",hostHolder.getUser().getName()));
 
             return new Result().success().data(likes);
         }else {

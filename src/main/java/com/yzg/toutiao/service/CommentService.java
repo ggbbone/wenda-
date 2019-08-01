@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.util.HtmlUtils;
 
 import java.util.Date;
 import java.util.List;
@@ -22,7 +23,7 @@ import java.util.List;
 @Service
 @Transactional
 public class CommentService {
-    private static final Logger LOGGER = LoggerFactory.getLogger(LogAspect.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(CommentService.class);
 
     @Autowired
     CommentMapper commentMapper;
@@ -54,6 +55,7 @@ public class CommentService {
         } else if (entityType == 2) {
             //更改回答的评论数量
             commentMapper.addCommentCount(1, entityId);
+            
         }
     }
 
@@ -81,11 +83,12 @@ public class CommentService {
         PageHelper.offsetPage(offset, limit);
 
         List<CommentUser> comments = commentUserMapper.selectByExample(commentUserExample);
-        //当查询问题下的评论时,同时查出2条该评论的回复
-        if (entityType == 2) {
+
+        //当查询问题下的评论时,同时查出2条该评论的最高赞回复
+        if (entityType == EntityType.COMMENT) {
             for (CommentUser comment : comments) {
                 ReplyUserExample replyUserExample = new ReplyUserExample();
-                replyUserExample.setOrderByClause("created_date");
+                replyUserExample.setOrderByClause("likes desc");
                 replyUserExample.createCriteria().andCommentIdEqualTo(comment.getId()).andStateEqualTo((byte) 1);
                 PageHelper.offsetPage(0, 2);
                 List<ReplyUser> replies = replyUserMapper.selectByExample(replyUserExample);
@@ -94,5 +97,16 @@ public class CommentService {
         }
 
         return comments;
+    }
+
+    public CommentUser selectCommentById(int id){
+        CommentUserExample commentUserExample = new CommentUserExample();
+        commentUserExample.createCriteria().andIdEqualTo(id);
+        List<CommentUser> commentUsers = commentUserMapper.selectByExample(commentUserExample);
+        if (commentUsers.size()>0){
+            return commentUsers.get(0);
+        }else {
+            return null;
+        }
     }
 }

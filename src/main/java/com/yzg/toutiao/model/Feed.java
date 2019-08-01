@@ -1,5 +1,7 @@
 package com.yzg.toutiao.model;
 
+import com.alibaba.fastjson.JSONObject;
+
 import java.util.Date;
 
 public class Feed {
@@ -11,7 +13,9 @@ public class Feed {
 
     private Integer userId;
 
+    //JSON
     private String data;
+
 
     private Byte state;
 
@@ -61,5 +65,17 @@ public class Feed {
 
     public void setState(Byte state) {
         this.state = state;
+    }
+
+    @Override
+    public String toString() {
+        return "Feed{" +
+                "id=" + id +
+                ", type=" + type +
+                ", createdDate=" + createdDate +
+                ", userId=" + userId +
+                ", data='" + data + '\'' +
+                ", state=" + state +
+                '}';
     }
 }

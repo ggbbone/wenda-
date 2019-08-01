@@ -443,6 +443,206 @@ public class UserExample {
             addCriterion("head_url not between", value1, value2, "headUrl");
             return (Criteria) this;
         }
+
+        public Criteria andEmailIsNull() {
+            addCriterion("email is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andEmailIsNotNull() {
+            addCriterion("email is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andEmailEqualTo(String value) {
+            addCriterion("email =", value, "email");
+            return (Criteria) this;
+        }
+
+        public Criteria andEmailNotEqualTo(String value) {
+            addCriterion("email <>", value, "email");
+            return (Criteria) this;
+        }
+
+        public Criteria andEmailGreaterThan(String value) {
+            addCriterion("email >", value, "email");
+            return (Criteria) this;
+        }
+
+        public Criteria andEmailGreaterThanOrEqualTo(String value) {
+            addCriterion("email >=", value, "email");
+            return (Criteria) this;
+        }
+
+        public Criteria andEmailLessThan(String value) {
+            addCriterion("email <", value, "email");
+            return (Criteria) this;
+        }
+
+        public Criteria andEmailLessThanOrEqualTo(String value) {
+            addCriterion("email <=", value, "email");
+            return (Criteria) this;
+        }
+
+        public Criteria andEmailLike(String value) {
+            addCriterion("email like", value, "email");
+            return (Criteria) this;
+        }
+
+        public Criteria andEmailNotLike(String value) {
+            addCriterion("email not like", value, "email");
+            return (Criteria) this;
+        }
+
+        public Criteria andEmailIn(List<String> values) {
+            addCriterion("email in", values, "email");
+            return (Criteria) this;
+        }
+
+        public Criteria andEmailNotIn(List<String> values) {
+            addCriterion("email not in", values, "email");
+            return (Criteria) this;
+        }
+
+        public Criteria andEmailBetween(String value1, String value2) {
+            addCriterion("email between", value1, value2, "email");
+            return (Criteria) this;
+        }
+
+        public Criteria andEmailNotBetween(String value1, String value2) {
+            addCriterion("email not between", value1, value2, "email");
+            return (Criteria) this;
+        }
+
+        public Criteria andHeadlineIsNull() {
+            addCriterion("headline is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andHeadlineIsNotNull() {
+            addCriterion("headline is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andHeadlineEqualTo(String value) {
+            addCriterion("headline =", value, "headline");
+            return (Criteria) this;
+        }
+
+        public Criteria andHeadlineNotEqualTo(String value) {
+            addCriterion("headline <>", value, "headline");
+            return (Criteria) this;
+        }
+
+        public Criteria andHeadlineGreaterThan(String value) {
+            addCriterion("headline >", value, "headline");
+            return (Criteria) this;
+        }
+
+        public Criteria andHeadlineGreaterThanOrEqualTo(String value) {
+            addCriterion("headline >=", value, "headline");
+            return (Criteria) this;
+        }
+
+        public Criteria andHeadlineLessThan(String value) {
+            addCriterion("headline <", value, "headline");
+            return (Criteria) this;
+        }
+
+        public Criteria andHeadlineLessThanOrEqualTo(String value) {
+            addCriterion("headline <=", value, "headline");
+            return (Criteria) this;
+        }
+
+        public Criteria andHeadlineLike(String value) {
+            addCriterion("headline like", value, "headline");
+            return (Criteria) this;
+        }
+
+        public Criteria andHeadlineNotLike(String value) {
+            addCriterion("headline not like", value, "headline");
+            return (Criteria) this;
+        }
+
+        public Criteria andHeadlineIn(List<String> values) {
+            addCriterion("headline in", values, "headline");
+            return (Criteria) this;
+        }
+
+        public Criteria andHeadlineNotIn(List<String> values) {
+            addCriterion("headline not in", values, "headline");
+            return (Criteria) this;
+        }
+
+        public Criteria andHeadlineBetween(String value1, String value2) {
+            addCriterion("headline between", value1, value2, "headline");
+            return (Criteria) this;
+        }
+
+        public Criteria andHeadlineNotBetween(String value1, String value2) {
+            addCriterion("headline not between", value1, value2, "headline");
+            return (Criteria) this;
+        }
+
+        public Criteria andStateIsNull() {
+            addCriterion("state is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andStateIsNotNull() {
+            addCriterion("state is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andStateEqualTo(Byte value) {
+            addCriterion("state =", value, "state");
+            return (Criteria) this;
+        }
+
+        public Criteria andStateNotEqualTo(Byte value) {
+            addCriterion("state <>", value, "state");
+            return (Criteria) this;
+        }
+
+        public Criteria andStateGreaterThan(Byte value) {
+            addCriterion("state >", value, "state");
+            return (Criteria) this;
+        }
+
+        public Criteria andStateGreaterThanOrEqualTo(Byte value) {
+            addCriterion("state >=", value, "state");
+            return (Criteria) this;
+        }
+
+        public Criteria andStateLessThan(Byte value) {
+            addCriterion("state <", value, "state");
+            return (Criteria) this;
+        }
+
+        public Criteria andStateLessThanOrEqualTo(Byte value) {
+            addCriterion("state <=", value, "state");
+            return (Criteria) this;
+        }
+
+        public Criteria andStateIn(List<Byte> values) {
+            addCriterion("state in", values, "state");
+            return (Criteria) this;
+        }
+
+        public Criteria andStateNotIn(List<Byte> values) {
+            addCriterion("state not in", values, "state");
+            return (Criteria) this;
+        }
+
+        public Criteria andStateBetween(Byte value1, Byte value2) {
+            addCriterion("state between", value1, value2, "state");
+            return (Criteria) this;
+        }
+
+        public Criteria andStateNotBetween(Byte value1, Byte value2) {
+            addCriterion("state not between", value1, value2, "state");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

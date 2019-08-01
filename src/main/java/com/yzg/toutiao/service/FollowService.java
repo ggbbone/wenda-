@@ -35,9 +35,13 @@ public class FollowService {
         String followeeKey = RedisKeyUtils.getFolloweeKey(userId, entityType);
         Date date = new Date();
         Jedis jedis = jedisAdapter.getJedis();
+        //开启redis事务
         Transaction transaction = jedisAdapter.multi(jedis);
+        //添加到目标粉丝列表
         transaction.zadd(followerKey, date.getTime(), String.valueOf(userId));
+        //添加到用户关注列表
         transaction.zadd(followeeKey, date.getTime(), String.valueOf(entityId));
+        //提交事务并返回
         List<Object> list = jedisAdapter.exec(transaction, jedis);
         return list.size() == 2 && (long) list.get(0) > 0 && (long) list.get(1) > 0;
     }
@@ -88,6 +92,18 @@ public class FollowService {
     public List<Integer> getFollowees(int entityType, int userId, int offset, int end) {
         String followeeKey = RedisKeyUtils.getFolloweeKey(userId, entityType);
         return getIntegersFromString(jedisAdapter.zrevrange(followeeKey, offset, end));
+    }
+
+    /**
+     * 获取所有关注列表
+     * @param entityType
+     * @param userId
+     * @return
+     */
+    public List<Integer> getFollowees(int entityType, int userId) {
+        String followeeKey = RedisKeyUtils.getFolloweeKey(userId, entityType);
+        Set<String> idsString = jedisAdapter.zrevrangeByScore(followeeKey, 0, new Date().getTime());
+        return getIntegersFromString(idsString);
     }
 
     /**

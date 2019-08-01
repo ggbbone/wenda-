@@ -14,15 +14,20 @@
 <div class="container main" id="app">
     <div class="page-header1">
         <ul class="nav nav-tabs" style="color: #0f88eb">
-            <li role="presentation" :class="{'active':header == 1}"><a href="javascript:;" @click="header = 1">推荐</a></li>
-            <li role="presentation" :class="{'active':header == 2}"><a href="javascript:;" @click="header = 2">最新</a></li>
-            <li role="presentation" :class="{'active':header == 3}"><a href="javascript:;" @click="header = 3">热门</a></li>
+            <li role="presentation" :class="{'active':header == 1}"><a href="javascript:;" @click="header = 1">推荐</a>
+            </li>
+            <li role="presentation" :class="{'active':header == 2}"><a href="javascript:;" @click="header = 2">关注</a>
+            </li>
+            <li role="presentation" :class="{'active':header == 3}"><a href="javascript:;" @click="header = 3">热门</a>
+            </li>
         </ul>
     </div>
 
-    <div style="min-height: 800px;">
+    <!--推荐列表-->
+    <div id="recommend" class="recommend" v-if="header == 1">
         <div v-cloak="" v-for="(question, index) in questions" class="question" :key="question.id">
-            <h3><a :href="'${base.contextPath}/questions/' + question.id" class="question-title" target="_blank" style="text-decoration: none">{{question.title}}</a></h3>
+            <span><a :href="'${base.contextPath}/questions/' + question.id" class="question-title" target="_blank"
+                     style="text-decoration: none">{{question.title}}</a></span>
             <div class="AuthorInfo">
                 <img class="head" :src="question.user.headUrl">&nbsp;
                 <span>{{question.user.name}}</span>
@@ -32,34 +37,69 @@
             </div>
             <div class="ContentItem-time">
                 <a target="_blank" :href="'${base.contextPath}/questions/' + question.id">
-                    <span data-tooltip="发布于 2019-07-12 11:05">发布于 2019-07-12</span>
+                    <span>发布于 {{question.createdDate | time}}</span>
                 </a>
                 <span class="question-count Button--link" @click="toQuestionInfo(question)">
                     <span aria-hidden="true" class="glyphicon glyphicon-comment">
                     </span>
                     {{question.commentCount}}条回答
                 </span>
-
             </div>
+        </div>
+    </div>
+    <!--关注列表-->
+    <div class="follow" v-else-if="header == 2">
+        <div class="question">
+            <!--feed来源-->
+            <div class="FeedSource-firstline">
+                <span><a href="#">夜雨巴山</a></span>
+                <span>点赞了该回答</span>
+                <span>.</span>
+                <span>9小时前</span>
+            </div>
+            <!--feed内容作者-->
+            <div class="AuthorInfo FeedSource-byline">
+                <a class="" target="_blank" href="/">
+                    <img class="" src="http://images.nowcoder.com/head/66t.png"
+                         alt="悲伤汽水" width="24" height="24"></a>
+                <div class="AuthorInfo-content">
+                    <div class="AuthorInfo-head">
+                        <span class="AuthorInfo-name"><a href="/">悲伤汽水</a></span>
+                    </div>
+                </div>
+            </div>
+            <!--feed内容-->
+            <div>
+                <span>
+                    <a href="/wenda/questions/656" target="_blank" class="question-title"
+                       style="text-decoration: none;">问题的测试数据标题830?</a>
+                </span>
+                <div class="question-content">
+                    <span class="close-content Button--link">并且女孩一定不会轻易相信你说的话，证明还是可能说服的，首先跟女孩解释，女孩一定僵持，不会轻易做动作然后解释你也不知道怎样到床底下的，然后跟她说把斧子拿出来然后用手慢慢把斧子推出床外不要露手，手拿着斧头把斧柄侧着给女孩儿证明自己是无害的然后跟女孩儿说你觉得我有危险可以随时拿斧头自卫，比刀有用，而且我如果是杀人犯就不会把斧头给你，现在我只想出去，或者等你把我绑起来，你报警，这些都是你可以选择的，然后慢慢的跟他说你要拿出左手，然后你伸出左手让女孩看手里没东西然后手压在地板上，右手同理，然后慢慢的爬出来 爬到一半的时候手背后让女孩给自己绑起来，然后慢慢的蠕动出来，让女孩给你全身绑起来，找警察。让警察决定真相，或者相信你就让你走，如果女孩担心你衣服里藏东西你可以把衣服脱了给扔出来。这时候有人可能会说女孩不相信，现在切换女孩视角，女孩不管你是不是杀人犯，女孩只想活命，跟有斧头的你血拼，不如你主动把斧头交出来，而且斧柄是在手里的，就算争抢也可以直接扔掉斧柄用刀，然后现在你获得斧头了，然后那个所谓的杀人犯说要出来，他把左手和右手都伸出来，放到地上压起来这时候肯定是没有攻击性的，还有爬到一半让你绑起来那时候你骑上他或者在床上他都无法跟你反打，因为他是趴着的当你把他绑起来之后，他是无法打过你的手受限制然后你有斧头也有刀他什么也没有，你可以选择相信他的提议，而且杀人犯也没有主动交出武器的而且他做的一切都没有危险性，如果真正的一个杀人犯手贴床边，悄悄的把斧子拿在手里，做个引体向上一下子就出来了，而你的视角里不可能床哪个地方都能看的清清楚楚，就算看到了也不一定能反应过来，而且只是几个手指头，很不容易被看到，那时候杀人犯就算没有斧头杀你也是轻轻松松，而且正常女孩子不会不到万不得已拼命，事实上诚实的说话为别人着想，为别人打消顾虑是不会有危险的。真正杀人犯也不会放弃一切优势跟你演技杀你，而且基本上没有任何反杀的可能性。而且要杀你真的很轻松。按我说的可能前几个步骤女孩就相信你了，很有可能让你走或者报警，无论怎样你都是平安无事的。也有可能不会那么麻烦，但是做一定要做，而且是事先把事情说出来，或者听女孩指挥，女孩让干嘛干嘛。一定不会有危险的。</span>
+                </div>
+            </div>
+        </div>
+        <!--热门列表-->
+        <div class="hot" v-else-if="header == 3">
 
+        </div>
 
+        <!--加载动画-->
+        <div class="loading" v-if="next">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+
+        <div v-else-if="questions.length > 0" style="text-align: center;padding-top: 15px;" v-cloak>
+            <span class="Button Button--link">没有更多了</span>
         </div>
     </div>
 
-    <div class="loading" v-if="next">
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-    </div>
-    <div v-else style="text-align: center;padding-top: 15px;">
-        <span class="Button Button--link">没有更多了</span>
-    </div>
-</div>
 
-
-#parse("footer.html")
+    #parse("footer.html")
 </body>
 <script src="${base.contextPath}/scripts/js/index.js"></script>
 </html>
