@@ -9,16 +9,45 @@ let app = new Vue({
             header: 1,
             //推荐问题列表数据
             questions: [],
-
             offset: 0,
             limit: 10,
             orderBy: 'created_date',
 
+            //关注列表
+            follows:{list:[],page:{offset:1,limit:10}},
 
 
             next: false,
             loading:false,
             bottomHight: 90,//滚动条到某个位置才触发时间
+        }
+    },
+    watch:{
+        'header':{
+            handler: function (newValue, oldValue) {
+                if (newValue === 2) {
+                    //查询关注
+                    let _t = this;
+                    axios.get(base + '/feed/follow', {
+                        params: {
+                            offset: _t.follows.page.offset,
+                            limit: _t.follows.page.limit,
+                        }
+                    }).then(function (value) {
+                        let code = value.data.status;
+                        if (code === 200){
+
+                            for (let i = 0; i < value.data.data.length; i++){
+                                value.data.data[i].data = JSON.parse(value.data.data[i].data);
+                                _t.follows.list.push(value.data.data[i]);
+                            }
+                            console.log(value.data.data[0]);
+                        }
+                    });
+                }else if (newValue === 1) {
+                    
+                }
+            }
         }
     },
     methods: {
@@ -56,11 +85,16 @@ let app = new Vue({
             window.open(base + '/questions/'+ question.id);
         },
         handleScroll: function () {
-            if (getScrollBottomHeight() <= app.bottomHight &&
-                app.next &&
-                app.loading === false) {
-                app.getMore();
+            if (this.header === 1){
+                if (getScrollBottomHeight() <= app.bottomHight &&
+                    app.next &&
+                    app.loading === false) {
+                    app.getMore();
+                }
+            } else if (this.header === 2){
+                
             }
+
         }
     },
     created: function () {
