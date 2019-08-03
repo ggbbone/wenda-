@@ -38,7 +38,7 @@ public class EventConsumer implements InitializingBean, ApplicationContextAware 
 
     //这个方法将在所有的属性被初始化后调用
     @Override
-    public void afterPropertiesSet() throws Exception {
+    public void afterPropertiesSet(){
         //获取现在有多少个eventHandler初始化了
         Map<String, EventHandler> beans = applicationContext.getBeansOfType(EventHandler.class);
         if (beans != null){
@@ -80,8 +80,9 @@ public class EventConsumer implements InitializingBean, ApplicationContextAware 
                 }
             }
         });
-
         thread.start();
+
+
     }
 
     @Override
